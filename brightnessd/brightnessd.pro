@@ -16,11 +16,11 @@ TARGET = brightnessd
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    Device.cpp \
     sysfs/RoValue.cpp \
     sysfs/WoValue.cpp \
     dbus/Brightness.cpp \
-    BrightnessControl.cpp
+    BrightnessControl.cpp \
+    SysfsDevice.cpp
 
 HEADERS += \
     Device.h \
@@ -31,4 +31,5 @@ HEADERS += \
     dbus/Brightness.h \
     BrightnessControl.h \
     Brightness.h \
-    Powersave.h
+    Powersave.h \
+    SysfsDevice.h

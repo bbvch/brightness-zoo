@@ -8,7 +8,7 @@
 #include "dbus/Brightness.h"
 #include "sysfs/WoValue.h"
 #include "sysfs/RoValue.h"
-#include "Device.h"
+#include "SysfsDevice.h"
 #include "BrightnessControl.h"
 
 #include <QCoreApplication>
@@ -50,7 +50,11 @@ int main(int argc, char *argv[])
       return -1;
   }
 
-  BrightnessControl control;
+  sysfs::WoValue brightnessFile{root + "/brightness"};
+  sysfs::RoValue maxBrightnessFile{root + "/max_brightness"};
+  SysfsDevice device{brightnessFile, maxBrightnessFile};
+
+  BrightnessControl control{device};
 
   new dbus::brightness::Power(control, &app);
   new dbus::brightness::PowerSave(control, &app);
@@ -59,12 +63,6 @@ int main(int argc, char *argv[])
     std::cerr << "Could not register object" << std::endl;
     return -1;
   }
-
-  sysfs::WoValue brightnessFile{root + "/brightness"};
-  sysfs::RoValue maxBrightnessFile{root + "/max_brightness"};
-  Device device{brightnessFile, maxBrightnessFile};
-
-  QObject::connect(&control, SIGNAL(brightnessChanged(qint32)), &device, SLOT(setPercentage(qint32)));
 
   return app.exec();
 }

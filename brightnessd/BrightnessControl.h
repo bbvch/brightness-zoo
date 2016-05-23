@@ -10,17 +10,16 @@
 
 #include "Brightness.h"
 #include "Powersave.h"
+#include "Device.h"
 
-#include <QObject>
+#include <QtGlobal>
 
 class BrightnessControl :
-    public QObject,
     public Brightness,
     public Powersave
 {
-  Q_OBJECT
 public:
-  explicit BrightnessControl(QObject *parent = 0);
+  BrightnessControl(Device &device);
 
   void setBrightness(qint32) override;
   qint32 getBrightness() override;
@@ -28,12 +27,10 @@ public:
   void setPowersave(bool) override;
   bool getPowersave() override;
 
-signals:
-  void brightnessChanged(qint32 value);
-
 private:
   qint32 brightness{100};
   bool powersave{false};
+  Device &device;
 
   void updateCalculated();
 

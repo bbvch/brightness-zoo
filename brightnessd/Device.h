@@ -8,25 +8,14 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include "sysfs/Writer.h"
-#include "sysfs/Reader.h"
+#include <QtGlobal>
 
-#include <QObject>
-
-class Device : public QObject
+class Device
 {
-  Q_OBJECT
 public:
-  Device(sysfs::Writer &brightness, sysfs::Reader &maxBrightness);
+  virtual ~Device() = default;
 
-signals:
-
-public slots:
-  void setPercentage(qint32 percentage);
-
-private:
-  sysfs::Writer &brightness;
-  sysfs::Reader &maxBrightness;
+  virtual void setPercentage(qint32 percentage) = 0;
 
 };
 

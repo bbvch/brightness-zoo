@@ -7,9 +7,9 @@
 
 #include "BrightnessControl.h"
 
-BrightnessControl::BrightnessControl(QObject *parent) : QObject(parent)
+BrightnessControl::BrightnessControl(Device &_device) :
+  device{_device}
 {
-
 }
 
 void BrightnessControl::setBrightness(qint32 value)
@@ -40,5 +40,5 @@ void BrightnessControl::updateCalculated()
   if (powersave) {
     finalBrightness = finalBrightness / 2;
   }
-  brightnessChanged(finalBrightness);
+  device.setPercentage(finalBrightness);
 }

@@ -5,15 +5,15 @@
  * SPDX-License-Identifier:	GPL-3.0+
  */
 
-#include "Device.h"
+#include "SysfsDevice.h"
 
-Device::Device(sysfs::Writer &_brightness, sysfs::Reader &_maxBrightness) :
+SysfsDevice::SysfsDevice(sysfs::Writer &_brightness, sysfs::Reader &_maxBrightness) :
   brightness{_brightness},
   maxBrightness{_maxBrightness}
 {
 }
 
-void Device::setPercentage(qint32 percentage)
+void SysfsDevice::setPercentage(qint32 percentage)
 {
   auto max = maxBrightness.read().toInt();
   auto value = (percentage * max + 50) / 100;

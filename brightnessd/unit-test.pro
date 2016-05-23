@@ -13,15 +13,16 @@ QT += testlib
 LIBS += -lgtest -lgmock -lgtest_main
 
 SOURCES += \
-    Device.test.cpp \
-    Device.cpp \
     BrightnessControl.test.cpp \
-    BrightnessControl.cpp
+    BrightnessControl.cpp \
+    SysfsDevice.cpp \
+    SysfsDevice.test.cpp
 
 HEADERS += \
-    Device.h \
     sysfs/Reader.mock.h \
     sysfs/Writer.mock.h \
     sysfs/Reader.h \
     sysfs/Writer.h \
-    BrightnessControl.h
+    BrightnessControl.h \
+    SysfsDevice.h \
+    Device.mock.h
