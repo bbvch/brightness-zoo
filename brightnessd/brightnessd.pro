@@ -19,14 +19,14 @@ SOURCES += main.cpp \
     Device.cpp \
     sysfs/RoValue.cpp \
     sysfs/WoValue.cpp \
-    dbus/Brightness.cpp
+    dbus/Brightness.cpp \
+    BrightnessControl.cpp
 
 HEADERS += \
     Device.h \
     sysfs/Reader.h \
-    sysfs/Writer_Mock.h \
     sysfs/Writer.h \
-    sysfs/Reader_Mock.h \
     sysfs/RoValue.h \
     sysfs/WoValue.h \
-    dbus/Brightness.h
+    dbus/Brightness.h \
+    BrightnessControl.h

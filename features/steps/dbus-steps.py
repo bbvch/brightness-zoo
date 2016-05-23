@@ -13,3 +13,9 @@ def step_impl(context, value):
 	streetlightd = bus.get_object('ch.bbv.brightness', '/ch/bbv/brightness')
 	streetlightd.Set('ch.bbv.brightness.power', 'percentage', dbus.Int32(value), dbus_interface=dbus.PROPERTIES_IFACE)
 
+@when(u'I set the D-Bus property "on" to true of the interface "ch.bbv.brightness.powersave" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"')
+def step_impl(context):
+	bus = dbus.SessionBus()
+	streetlightd = bus.get_object('ch.bbv.brightness', '/ch/bbv/brightness')
+	streetlightd.Set('ch.bbv.brightness.powersave', 'on', dbus.Boolean(True), dbus_interface=dbus.PROPERTIES_IFACE)
+

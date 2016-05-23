@@ -14,11 +14,14 @@ LIBS += -lgtest -lgmock -lgtest_main
 
 SOURCES += \
     Device.test.cpp \
-    Device.cpp
+    Device.cpp \
+    BrightnessControl.test.cpp \
+    BrightnessControl.cpp
 
 HEADERS += \
     Device.h \
     sysfs/Reader.mock.h \
     sysfs/Writer.mock.h \
     sysfs/Reader.h \
-    sysfs/Writer.h
+    sysfs/Writer.h \
+    BrightnessControl.h

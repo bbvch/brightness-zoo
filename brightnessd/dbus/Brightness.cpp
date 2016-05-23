@@ -32,5 +32,23 @@ void Power::setPercentage(qint32 value)
 }
 
 
+PowerSave::PowerSave(QObject *parent) :
+  QDBusAbstractAdaptor(parent)
+{
+}
+
+bool PowerSave::getOn() const
+{
+  return on;
+}
+
+void PowerSave::setOn(bool value)
+{
+  if (on != value) {
+    on  = value;
+    onChanged(on);
+  }
+}
+
 }
 }

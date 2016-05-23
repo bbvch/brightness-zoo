@@ -39,6 +39,28 @@ private:
 
 };
 
+class PowerSave :
+    public QDBusAbstractAdaptor
+{
+  Q_OBJECT
+  Q_CLASSINFO("D-Bus Interface", "ch.bbv.brightness.powersave")
+
+  Q_PROPERTY(bool on READ getOn WRITE setOn NOTIFY onChanged)
+
+public:
+  PowerSave(QObject *parent);
+
+signals:
+  void onChanged(bool value);
+
+private:
+  bool on = 0;
+
+  bool getOn() const;
+  void setOn(bool value);
+
+};
+
 
 }
 }

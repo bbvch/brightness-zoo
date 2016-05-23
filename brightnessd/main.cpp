@@ -9,6 +9,7 @@
 #include "sysfs/WoValue.h"
 #include "sysfs/RoValue.h"
 #include "Device.h"
+#include "BrightnessControl.h"
 
 #include <QCoreApplication>
 #include <QCommandLineParser>
@@ -50,6 +51,8 @@ int main(int argc, char *argv[])
   }
 
   dbus::brightness::Power *power = new dbus::brightness::Power(&app);
+  dbus::brightness::PowerSave *powerSave = new dbus::brightness::PowerSave(&app);
+
   if(!bus.registerObject("/ch/bbv/brightness", &app)){
     std::cerr << "Could not register object" << std::endl;
     return -1;
@@ -59,7 +62,11 @@ int main(int argc, char *argv[])
   sysfs::RoValue maxBrightnessFile{root + "/max_brightness"};
   Device device{brightnessFile, maxBrightnessFile};
 
-  QObject::connect(power, SIGNAL(percentageChanged(qint32)), &device, SLOT(setPercentage(qint32)));
+  BrightnessControl control;
+
+  QObject::connect(power, SIGNAL(percentageChanged(qint32)), &control, SLOT(setBrightness(qint32)));
+  QObject::connect(powerSave, SIGNAL(onChanged(bool)), &control, SLOT(setPowersave(bool)));
+  QObject::connect(&control, SIGNAL(brightnessChanged(qint32)), &device, SLOT(setPercentage(qint32)));
 
   return app.exec();
 }
