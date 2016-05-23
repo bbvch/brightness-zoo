@@ -15,15 +15,27 @@ BrightnessControl::BrightnessControl(QObject *parent) : QObject(parent)
 void BrightnessControl::setBrightness(qint32 value)
 {
   brightness = value;
-  if (powersave) {
-    value = value / 2;
-  }
-  brightnessChanged(value);
+  updateCalculated();
+}
+
+qint32 BrightnessControl::getBrightness()
+{
+  return brightness;
 }
 
 void BrightnessControl::setPowersave(bool value)
 {
   powersave = value;
+  updateCalculated();
+}
+
+bool BrightnessControl::getPowersave()
+{
+  return powersave;
+}
+
+void BrightnessControl::updateCalculated()
+{
   qint32 finalBrightness = brightness;
   if (powersave) {
     finalBrightness = finalBrightness / 2;

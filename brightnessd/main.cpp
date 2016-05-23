@@ -50,8 +50,10 @@ int main(int argc, char *argv[])
       return -1;
   }
 
-  dbus::brightness::Power *power = new dbus::brightness::Power(&app);
-  dbus::brightness::PowerSave *powerSave = new dbus::brightness::PowerSave(&app);
+  BrightnessControl control;
+
+  new dbus::brightness::Power(control, &app);
+  new dbus::brightness::PowerSave(control, &app);
 
   if(!bus.registerObject("/ch/bbv/brightness", &app)){
     std::cerr << "Could not register object" << std::endl;
@@ -62,10 +64,6 @@ int main(int argc, char *argv[])
   sysfs::RoValue maxBrightnessFile{root + "/max_brightness"};
   Device device{brightnessFile, maxBrightnessFile};
 
-  BrightnessControl control;
-
-  QObject::connect(power, SIGNAL(percentageChanged(qint32)), &control, SLOT(setBrightness(qint32)));
-  QObject::connect(powerSave, SIGNAL(onChanged(bool)), &control, SLOT(setPowersave(bool)));
   QObject::connect(&control, SIGNAL(brightnessChanged(qint32)), &device, SLOT(setPercentage(qint32)));
 
   return app.exec();

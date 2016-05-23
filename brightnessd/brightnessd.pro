@@ -29,4 +29,6 @@ HEADERS += \
     sysfs/RoValue.h \
     sysfs/WoValue.h \
     dbus/Brightness.h \
-    BrightnessControl.h
+    BrightnessControl.h \
+    Brightness.h \
+    Powersave.h

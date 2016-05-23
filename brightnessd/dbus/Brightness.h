@@ -5,8 +5,11 @@
  * SPDX-License-Identifier:	GPL-3.0+
  */
 
-#ifndef BRIGHTNESS_H
-#define BRIGHTNESS_H
+#ifndef DBUS_BRIGHTNESS_H
+#define DBUS_BRIGHTNESS_H
+
+#include <Brightness.h>
+#include <Powersave.h>
 
 #include <QObject>
 #include <QtDBus>
@@ -23,16 +26,13 @@ class Power :
   Q_OBJECT
   Q_CLASSINFO("D-Bus Interface", "ch.bbv.brightness.power")
 
-  Q_PROPERTY(qint32 percentage READ getPercentage WRITE setPercentage NOTIFY percentageChanged)
+  Q_PROPERTY(qint32 percentage READ getPercentage WRITE setPercentage)
 
 public:
-  Power(QObject *parent);
-
-signals:
-  void percentageChanged(qint32 value);
+  Power(Brightness &brightness, QObject *parent);
 
 private:
-  qint32 percentage = 0;
+  Brightness &brightness;
 
   qint32 getPercentage() const;
   void setPercentage(qint32 value);
@@ -45,16 +45,13 @@ class PowerSave :
   Q_OBJECT
   Q_CLASSINFO("D-Bus Interface", "ch.bbv.brightness.powersave")
 
-  Q_PROPERTY(bool on READ getOn WRITE setOn NOTIFY onChanged)
+  Q_PROPERTY(bool on READ getOn WRITE setOn)
 
 public:
-  PowerSave(QObject *parent);
-
-signals:
-  void onChanged(bool value);
+  PowerSave(Powersave &powersave, QObject *parent);
 
 private:
-  bool on = 0;
+  Powersave &powersave;
 
   bool getOn() const;
   void setOn(bool value);

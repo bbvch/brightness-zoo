@@ -13,41 +13,37 @@ namespace brightness
 {
 
 
-Power::Power(QObject *parent) :
-  QDBusAbstractAdaptor(parent)
+Power::Power(Brightness &_brightness, QObject *parent) :
+  QDBusAbstractAdaptor(parent),
+  brightness{_brightness}
 {
 }
 
 qint32 Power::getPercentage() const
 {
-  return percentage;
+  return brightness.getBrightness();
 }
 
 void Power::setPercentage(qint32 value)
 {
-  if (percentage != value) {
-    percentage  = value;
-    percentageChanged(percentage);
-  }
+  brightness.setBrightness(value);
 }
 
 
-PowerSave::PowerSave(QObject *parent) :
-  QDBusAbstractAdaptor(parent)
+PowerSave::PowerSave(Powersave &_powersave, QObject *parent) :
+  QDBusAbstractAdaptor(parent),
+  powersave{_powersave}
 {
 }
 
 bool PowerSave::getOn() const
 {
-  return on;
+  return powersave.getPowersave();
 }
 
 void PowerSave::setOn(bool value)
 {
-  if (on != value) {
-    on  = value;
-    onChanged(on);
-  }
+  powersave.setPowersave(value);
 }
 
 }
