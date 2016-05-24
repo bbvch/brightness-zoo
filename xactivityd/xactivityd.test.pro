@@ -17,5 +17,4 @@ SOURCES += \
     ActivityNotifier.test.cpp
 
 HEADERS += \
-    ActivityNotifier.h \
-    Idle.h
+    ActivityNotifier.h

@@ -9,8 +9,8 @@
 #define SYSFSDEVICE_H
 
 #include "Device.h"
-#include "sysfs/Writer.h"
-#include "sysfs/Reader.h"
+#include <sysfs/Writer.h>
+#include <sysfs/Reader.h>
 
 #include <QObject>
 

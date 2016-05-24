@@ -12,6 +12,8 @@ QT += testlib
 
 LIBS += -lgtest -lgmock -lgtest_main
 
+INCLUDEPATH += ../common/
+
 SOURCES += \
     BrightnessControl.test.cpp \
     BrightnessControl.cpp \
@@ -19,10 +21,10 @@ SOURCES += \
     SysfsDevice.test.cpp
 
 HEADERS += \
-    sysfs/Reader.mock.h \
-    sysfs/Writer.mock.h \
-    sysfs/Reader.h \
-    sysfs/Writer.h \
+    ../common/sysfs/Reader.mock.h \
+    ../common/sysfs/Writer.mock.h \
+    ../common/sysfs/Reader.h \
+    ../common/sysfs/Writer.h \
     BrightnessControl.h \
     SysfsDevice.h \
     Device.mock.h

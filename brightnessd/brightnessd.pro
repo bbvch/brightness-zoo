@@ -18,8 +18,8 @@ TEMPLATE = app
 INCLUDEPATH += ../common/
 
 SOURCES += main.cpp \
-    sysfs/RoValue.cpp \
-    sysfs/WoValue.cpp \
+    ../common/sysfs/RoValue.cpp \
+    ../common/sysfs/WoValue.cpp \
     dbus/Brightness.cpp \
     BrightnessControl.cpp \
     SysfsDevice.cpp \
@@ -28,10 +28,10 @@ SOURCES += main.cpp \
 
 HEADERS += \
     Device.h \
-    sysfs/Reader.h \
-    sysfs/Writer.h \
-    sysfs/RoValue.h \
-    sysfs/WoValue.h \
+    ../common/sysfs/Reader.h \
+    ../common/sysfs/Writer.h \
+    ../common/sysfs/RoValue.h \
+    ../common/sysfs/WoValue.h \
     dbus/Brightness.h \
     BrightnessControl.h \
     Brightness.h \
