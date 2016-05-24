@@ -9,19 +9,22 @@ Feature: Reduce the brightness of the backlight when set into powersave mode
   In order to increase the display lifetime
 
 Scenario Outline: Use the powersave mode
-  Given I have a directory "test"
+  Given I write "powersaveBrightnessPercentage=<reduced>" to the brightnessd configuration file
+  And I have a directory "test"
   And I have a file "test/max_brightness" with the content "100"
   And I have a file "test/brightness" with the content ""
   And I start brightnessd with the device "test"
 
-  When I set the D-Bus property "percentage" to <percentage> of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
+  When I set the D-Bus property "percentage" to <original> of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
   And I set the D-Bus property "on" to true of the interface "ch.bbv.brightness.powersave" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
 
-  Then I expect the file "test/brightness" to have the content "<reduced brightness>"
+  Then I expect the file "test/brightness" to have the content "<actual>"
 
   Examples:
-    | percentage | reduced brightness |
-    |        100 |                 50 |
-    |          7 |                  3 |
-    |         42 |                 21 |
+    | original | reduced | actual |
+    |      100 |      50 |     50 |
+    |      100 |      25 |     25 |
+    |        7 |      50 |      3 |
+    |       42 |      50 |     21 |
+    |       42 |      75 |     31 |
 

@@ -33,3 +33,11 @@ def step_impl(context, filename, content):
 	file.close()
 	assert content == actualContent, 'expected content: "' + content + '", got: "' + actualContent + '"'
 
+@given(u'I write "{line}" to the brightnessd configuration file')
+def step_impl(context, line):
+	os.makedirs(context.tmpdir + '/brightness-zoo')
+	filename = context.tmpdir + '/brightness-zoo/brightnessd.ini'
+	file = open(filename, 'w+')
+	file.write(line)
+	file.close()
+

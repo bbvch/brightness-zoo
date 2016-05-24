@@ -7,7 +7,8 @@
 
 #include "BrightnessControl.h"
 
-BrightnessControl::BrightnessControl(Device &_device) :
+BrightnessControl::BrightnessControl(uint _reducedPower, Device &_device) :
+  reducedPower{_reducedPower},
   device{_device}
 {
 }
@@ -38,7 +39,7 @@ void BrightnessControl::updateCalculated()
 {
   qint32 finalBrightness = brightness;
   if (powersave) {
-    finalBrightness = finalBrightness / 2;
+    finalBrightness = finalBrightness * reducedPower / 100;
   }
   device.setPercentage(finalBrightness);
 }

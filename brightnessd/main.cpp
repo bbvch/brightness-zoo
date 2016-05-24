@@ -10,6 +10,7 @@
 #include "sysfs/RoValue.h"
 #include "SysfsDevice.h"
 #include "BrightnessControl.h"
+#include <Configuration.h>
 
 #include <QCoreApplication>
 #include <QCommandLineParser>
@@ -28,8 +29,17 @@ static QString parseCmdline(const QStringList &arguments) {
   return parser.value(device);
 }
 
+static unsigned powersaveBrightnessPercentage()
+{
+  QSettingsConfig configuration;
+  return configuration.read("powersaveBrightnessPercentage", 50);
+}
+
 int main(int argc, char *argv[])
 {
+  QCoreApplication::setOrganizationName("brightness-zoo");
+  QCoreApplication::setApplicationName("brightnessd");
+
   QCoreApplication app(argc, argv);
 
   const auto root = parseCmdline(app.arguments());
@@ -54,7 +64,7 @@ int main(int argc, char *argv[])
   sysfs::RoValue maxBrightnessFile{root + "/max_brightness"};
   SysfsDevice device{brightnessFile, maxBrightnessFile};
 
-  BrightnessControl control{device};
+  BrightnessControl control{powersaveBrightnessPercentage(), device};
 
   new dbus::brightness::Power(control, &app);
   new dbus::brightness::PowerSave(control, &app);
