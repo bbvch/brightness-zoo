@@ -13,6 +13,15 @@
 #include <QCoreApplication>
 #include <QTimer>
 #include <iostream>
+#include <chrono>
+
+static std::chrono::minutes activityTimeout()
+{
+  QSettingsConfig configuration;
+
+  uint value = configuration.read("activityTimeoutInMinutes", 2);
+  return std::chrono::minutes{value};
+}
 
 int main(int argc, char *argv[])
 {

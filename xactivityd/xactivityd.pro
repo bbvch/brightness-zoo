@@ -18,19 +18,18 @@ TEMPLATE = app
 
 LIBS += -lX11 -lXss -lXext
 
+INCLUDEPATH += ../common/
+
 SOURCES += main.cpp \
     Xidle.cpp \
     idletime.c \
     ActivityNotifier.cpp \
     PowersaveProxy.cpp \
-    Configuration.cpp
+    ../common/Configuration.cpp
 
 HEADERS += \
     idletime.h \
     Xidle.h \
     ActivityNotifier.h \
     PowersaveProxy.h \
-    Configuration.h
-
-SUBDIRS += \
-    unit-test.pro
+    ../common/Configuration.h
