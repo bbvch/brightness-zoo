@@ -10,7 +10,9 @@
 #include "sysfs/RoValue.h"
 #include "SysfsDevice.h"
 #include "BrightnessControl.h"
+
 #include <Configuration.h>
+#include <DbusNames.h>
 
 #include <QCoreApplication>
 #include <QCommandLineParser>
@@ -44,6 +46,7 @@ int main(int argc, char *argv[])
 
   const auto root = parseCmdline(app.arguments());
   if (root == "") {
+    //TODO print error message
     return -1;
   }
 
@@ -54,7 +57,7 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  if(!bus.registerService("ch.bbv.brightness"))
+  if(!bus.registerService(DbusNames::brightnessService()))
   {
       std::cerr << "Could not register service" << std::endl;
       return -1;
@@ -69,7 +72,7 @@ int main(int argc, char *argv[])
   new dbus::brightness::Power(control, &app);
   new dbus::brightness::PowerSave(control, &app);
 
-  if(!bus.registerObject("/ch/bbv/brightness", &app)){
+  if(!bus.registerObject(DbusNames::brightnessPath(), &app)){
     std::cerr << "Could not register object" << std::endl;
     return -1;
   }

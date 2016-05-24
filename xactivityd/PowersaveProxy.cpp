@@ -8,8 +8,10 @@
 
 #include "PowersaveProxy.h"
 
+#include <DbusNames.h>
+
 PowersaveProxy::PowersaveProxy(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent) :
-  QDBusAbstractInterface(service, path, "ch.bbv.brightness.powersave", connection, parent)
+  QDBusAbstractInterface(service, path, DbusName_PowersaveInterface, connection, parent)
 {
 }
 

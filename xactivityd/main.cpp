@@ -8,7 +8,9 @@
 #include "ActivityNotifier.h"
 #include "PowersaveProxy.h"
 #include "Xidle.h"
-#include "Configuration.h"
+
+#include <Configuration.h>
+#include <DbusNames.h>
 
 #include <QCoreApplication>
 #include <QTimer>
@@ -30,7 +32,7 @@ int main(int argc, char *argv[])
 
   QCoreApplication app(argc, argv);
 
-  PowersaveProxy powersave{"ch.bbv.brightness", "/ch/bbv/brightness", QDBusConnection::sessionBus()};
+  PowersaveProxy powersave{DbusNames::brightnessService(), DbusNames::brightnessPath(), QDBusConnection::sessionBus()};
   if (!powersave.isValid()) {
     std::cerr << "could not connect to service " << powersave.service().toStdString() << " path " << powersave.path().toStdString() << ":" << std::endl;
     std::cerr << powersave.lastError().message().toStdString() << std::endl;

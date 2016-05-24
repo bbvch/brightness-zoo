@@ -10,6 +10,7 @@
 
 #include <Brightness.h>
 #include <Powersave.h>
+#include <DbusNames.h>
 
 #include <QObject>
 #include <QtDBus>
@@ -24,7 +25,7 @@ class Power :
     public QDBusAbstractAdaptor
 {
   Q_OBJECT
-  Q_CLASSINFO("D-Bus Interface", "ch.bbv.brightness.power")
+  Q_CLASSINFO("D-Bus Interface", DbusName_PowerInterface)
 
   Q_PROPERTY(qint32 percentage READ getPercentage WRITE setPercentage)
 
@@ -43,7 +44,7 @@ class PowerSave :
     public QDBusAbstractAdaptor
 {
   Q_OBJECT
-  Q_CLASSINFO("D-Bus Interface", "ch.bbv.brightness.powersave")
+  Q_CLASSINFO("D-Bus Interface", DbusName_PowersaveInterface)
 
   Q_PROPERTY(bool on READ getOn WRITE setOn)
 
