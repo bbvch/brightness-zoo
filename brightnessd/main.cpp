@@ -20,11 +20,15 @@
 
 static QString parseCmdline(const QStringList &arguments) {
   QCommandLineParser parser;
+  parser.addHelpOption();
+
   QCommandLineOption device{"device", "the root sysfs folder of the brightness device", "path"};
   parser.addOption(device);
 
-  if (!parser.parse(arguments)) {
-    std::cerr << "could not parse options: " + parser.errorText().toStdString() << std::endl;
+  parser.process(arguments);
+
+  if (!parser.isSet(device)) {
+    parser.showHelp(-1);
     return {};
   }
 
@@ -45,10 +49,6 @@ int main(int argc, char *argv[])
   QCoreApplication app(argc, argv);
 
   const auto root = parseCmdline(app.arguments());
-  if (root == "") {
-    //TODO print error message
-    return -1;
-  }
 
   auto bus = QDBusConnection::sessionBus();
 
@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  if(!bus.registerService(DbusNames::brightnessService()))
-  {
+  if(!bus.registerService(DbusNames::brightnessService())) {
       std::cerr << "Could not register service" << std::endl;
       return -1;
   }
