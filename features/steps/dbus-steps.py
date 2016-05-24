@@ -19,3 +19,10 @@ def step_impl(context):
 	streetlightd = bus.get_object('ch.bbv.brightness', '/ch/bbv/brightness')
 	streetlightd.Set('ch.bbv.brightness.powersave', 'on', dbus.Boolean(True), dbus_interface=dbus.PROPERTIES_IFACE)
 
+@then(u'I expect the property "percentage" of brightnessd to be {value:d}')
+def step_impl(context, value):
+	bus = dbus.SessionBus()
+	streetlightd = bus.get_object('ch.bbv.brightness', '/ch/bbv/brightness')
+	brightness = streetlightd.Get('ch.bbv.brightness.power', 'percentage', dbus_interface=dbus.PROPERTIES_IFACE)
+	assert value == brightness, 'expected brightness percentage: ' + str(value) + ', got: ' + str(brightness)
+

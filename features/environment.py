@@ -3,22 +3,19 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
-import os
 import tempfile
 import shutil
 import sys
 
 def before_scenario(context, scenario):
 	context.tmpdir = tempfile.mkdtemp()
-	os.chdir(context.tmpdir)
 
 
 def after_scenario(context, scenario):
-	if hasattr(context, 'application'):
-		context.application.terminate()
-		context.application.wait()
+	if hasattr(context, 'brightnessd'):
+		context.brightnessd.terminate()
+		context.brightnessd.wait()
 
-	os.chdir('/')
 	shutil.rmtree(context.tmpdir)
 
 
