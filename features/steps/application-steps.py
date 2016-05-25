@@ -12,7 +12,7 @@ def startApplication(context, arguments):
 	environment = dict(os.environ)
 	environment["XDG_CONFIG_HOME"] = context.tmpdir
 
-	return subprocess.Popen(arguments, env=environment)
+	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 def waitForDbusService():
@@ -23,7 +23,7 @@ def waitForDbusService():
 
 @given(u'I start brightnessd with the device "{device}"')
 def step_impl(context, device):
-	device = context.tmpdir + '/' + device;
+	device = context.tmpdir + '/' + device
 	context.brightnessd = startApplication(context, ['brightnessd', '--device=' + device])
 	waitForDbusService()
 
@@ -36,7 +36,19 @@ def step_impl(context):
 
 @when(u'I run ambientlightd with the device "{device}"')
 def step_impl(context, device):
-	device = context.tmpdir + '/' + device;
-	startApplication(context, ['ambientlightd', '--single', '--device=' + device]).wait();
+	device = context.tmpdir + '/' + device
+	context.ambientlightd = startApplication(context, ['ambientlightd', '--single', '--device=' + device])
+	context.ambientlightd.wait()
 
+
+@when(u'I run ambientlightd with the argument "{arg1}"')
+def step_impl(context, arg1):
+	context.ambientlightd = startApplication(context, ['ambientlightd', arg1])
+	context.ambientlightd.wait()
+
+
+@then(u'I expect the string "{text}" on stderr from ambientlightd')
+def step_impl(context, text):
+	output = context.ambientlightd.stderr.read()
+	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 

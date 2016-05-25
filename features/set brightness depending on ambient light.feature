@@ -47,3 +47,10 @@ Scenario Outline: Use the conversion parameter from the configuration file
     |      10 |   10010 |             20 |             80 |  20000 |         80 |
     |       1 |   25000 |             90 |             10 |  10000 |         58 |
 
+Scenario: ambientlightd prints an error when the ambient light sensor is not available
+  Given I start dummy-brightnessd
+
+  When I run ambientlightd with the argument "--device=/sys/not-here"
+
+  Then I expect the string "file "/sys/not-here/in_illuminance_input" not found" on stderr from ambientlightd
+

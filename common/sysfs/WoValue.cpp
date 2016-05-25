@@ -4,6 +4,7 @@
 #include "WoValue.h"
 
 #include <fstream>
+#include <QFile>
 
 namespace sysfs
 {
@@ -11,6 +12,9 @@ namespace sysfs
 WoValue::WoValue(QString aFilename) :
   filename{aFilename}
 {
+  if (!QFile{filename}.exists()) {
+    throw std::runtime_error("file \"" + filename.toStdString() + "\" not found");
+  }
 }
 
 void WoValue::write(QString value)
