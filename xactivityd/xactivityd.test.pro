@@ -12,6 +12,9 @@ QT += testlib
 
 TARGET = xactivityd.test
 
+INSTALLS += target
+target.path = /usr/bin
+
 LIBS += -lgtest -lgmock -lgtest_main
 
 SOURCES += \

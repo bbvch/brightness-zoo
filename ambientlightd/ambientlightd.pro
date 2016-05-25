@@ -13,6 +13,9 @@ CONFIG -= app_bundle
 
 TARGET = ambientlightd
 
+INSTALLS += target
+target.path = /usr/bin
+
 TEMPLATE = app
 
 INCLUDEPATH += ../common/

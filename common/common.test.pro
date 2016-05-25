@@ -12,6 +12,9 @@ QT += testlib
 
 TARGET = common.test
 
+INSTALLS += target
+target.path = /usr/bin
+
 LIBS += -lgtest -lgmock -lgtest_main
 
 HEADERS += \

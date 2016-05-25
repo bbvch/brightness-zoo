@@ -13,6 +13,9 @@ CONFIG -= app_bundle
 
 TARGET = brightnessd
 
+INSTALLS += target
+target.path = /usr/bin
+
 TEMPLATE = app
 
 INCLUDEPATH += ../common/

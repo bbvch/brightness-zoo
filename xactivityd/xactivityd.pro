@@ -9,10 +9,13 @@ QT -= gui
 QT += dbus
 
 CONFIG += c++11
-
-TARGET = xactivityd
 CONFIG += console
 CONFIG -= app_bundle
+
+TARGET = xactivityd
+
+INSTALLS += target
+target.path = /usr/bin
 
 TEMPLATE = app
 
