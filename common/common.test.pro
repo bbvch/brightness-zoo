@@ -13,8 +13,8 @@ QT += testlib
 LIBS += -lgtest -lgmock -lgtest_main
 
 HEADERS += \
-    Configuration.h
+    ConfigurationReader.h
 
 SOURCES += \
-    Configuration.cpp \
-    Configuration.test.cpp
+    ConfigurationReader.cpp \
+    ConfigurationReader.test.cpp

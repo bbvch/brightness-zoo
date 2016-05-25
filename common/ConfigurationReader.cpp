@@ -6,17 +6,17 @@
  * SPDX-License-Identifier:	GPL-2.0
  */
 
-#include "Configuration.h"
+#include "ConfigurationReader.h"
 
 #include <QCoreApplication>
 #include <QSettings>
 
-Configuration::Configuration(Configuration::Reader _reader) :
+ConfigurationReader::ConfigurationReader(ConfigurationReader::Reader _reader) :
   reader{_reader}
 {
 }
 
-unsigned Configuration::read(QString key, unsigned defaultValue) const
+unsigned ConfigurationReader::read(QString key, unsigned defaultValue) const
 {
   bool ok;
   unsigned value = reader(key, defaultValue).toUInt(&ok);
@@ -26,8 +26,8 @@ unsigned Configuration::read(QString key, unsigned defaultValue) const
   return value;
 }
 
-QSettingsConfig::QSettingsConfig() :
-  Configuration{[&](QString key, QVariant defaultValue){
+QSettingsReader::QSettingsReader() :
+  ConfigurationReader{[&](QString key, QVariant defaultValue){
     return settings.value(key, defaultValue);
   }},
   settings{QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName()}

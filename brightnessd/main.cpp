@@ -11,7 +11,7 @@
 #include "SysfsDevice.h"
 #include "BrightnessControl.h"
 
-#include <Configuration.h>
+#include <ConfigurationReader.h>
 #include <DbusNames.h>
 
 #include <QCoreApplication>
@@ -37,7 +37,7 @@ static QString parseCmdline(const QStringList &arguments) {
 
 static unsigned powersaveBrightnessPercentage()
 {
-  QSettingsConfig configuration;
+  QSettingsReader configuration;
   return configuration.read("powersaveBrightnessPercentage", 50);
 }
 

@@ -9,7 +9,7 @@
 #include "PowersaveProxy.h"
 #include "Xidle.h"
 
-#include <Configuration.h>
+#include <ConfigurationReader.h>
 #include <DbusNames.h>
 
 #include <QCoreApplication>
@@ -19,7 +19,7 @@
 
 static std::chrono::minutes activityTimeout()
 {
-  QSettingsConfig configuration;
+  QSettingsReader configuration;
 
   uint value = configuration.read("activityTimeoutInMinutes", 2);
   return std::chrono::minutes{value};

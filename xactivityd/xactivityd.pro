@@ -25,7 +25,7 @@ SOURCES += main.cpp \
     idletime.c \
     ActivityNotifier.cpp \
     PowersaveProxy.cpp \
-    ../common/Configuration.cpp \
+    ../common/ConfigurationReader.cpp \
     ../common/DbusNames.cpp
 
 HEADERS += \
@@ -33,5 +33,5 @@ HEADERS += \
     Xidle.h \
     ActivityNotifier.h \
     PowersaveProxy.h \
-    ../common/Configuration.h \
+    ../common/ConfigurationReader.h \
     ../common/DbusNames.h

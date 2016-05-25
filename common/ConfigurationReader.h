@@ -6,20 +6,20 @@
  * SPDX-License-Identifier:	GPL-2.0
  */
 
-#ifndef CONFIGURATION_H
-#define CONFIGURATION_H
+#ifndef CONFIGURATIONREADER_H
+#define CONFIGURATIONREADER_H
 
 #include <functional>
 #include <QVariant>
 #include <QString>
 #include <QSettings>
 
-class Configuration
+class ConfigurationReader
 {
 public:
   typedef std::function<QVariant(QString key, QVariant defaultValue)> Reader;
 
-  Configuration(Reader reader);
+  ConfigurationReader(Reader reader);
 
   unsigned read(QString key, unsigned defaultValue) const;
 
@@ -28,11 +28,11 @@ private:
 
 };
 
-class QSettingsConfig :
-    public Configuration
+class QSettingsReader :
+    public ConfigurationReader
 {
 public:
-  QSettingsConfig();
+  QSettingsReader();
 
 private:
   QSettings settings;

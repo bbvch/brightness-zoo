@@ -11,7 +11,7 @@
 #include "BrightnessProxy.h"
 #include <sysfs/RoValue.h>
 #include <DbusNames.h>
-#include <Configuration.h>
+#include <ConfigurationReader.h>
 
 #include <QCoreApplication>
 #include <QTimer>
@@ -40,7 +40,7 @@ static QString parseCmdline(const QStringList &arguments) {
 
 static LinearConfiguration loadConfiguration()
 {
-  QSettingsConfig file;
+  QSettingsReader file;
 
   LinearConfiguration result;
 
