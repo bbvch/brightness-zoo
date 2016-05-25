@@ -34,7 +34,7 @@ HEADERS += \
     ../common/sysfs/WoValue.h \
     dbus/Brightness.h \
     BrightnessControl.h \
-    Brightness.h \
+    ../common/Brightness.h \
     Powersave.h \
     SysfsDevice.h \
     ../common/Configuration.h \

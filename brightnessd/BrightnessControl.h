@@ -22,10 +22,10 @@ public:
   BrightnessControl(uint reducedPower, Device &device);
 
   void setBrightness(qint32) override;
-  qint32 getBrightness() override;
+  qint32 getBrightness() const override;
 
   void setPowersave(bool) override;
-  bool getPowersave() override;
+  bool getPowersave() const override;
 
 private:
   const uint reducedPower;

@@ -19,7 +19,7 @@ void BrightnessControl::setBrightness(qint32 value)
   updateCalculated();
 }
 
-qint32 BrightnessControl::getBrightness()
+qint32 BrightnessControl::getBrightness() const
 {
   return brightness;
 }
@@ -30,7 +30,7 @@ void BrightnessControl::setPowersave(bool value)
   updateCalculated();
 }
 
-bool BrightnessControl::getPowersave()
+bool BrightnessControl::getPowersave() const
 {
   return powersave;
 }

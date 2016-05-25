@@ -14,7 +14,7 @@ public:
   virtual ~Powersave() = default;
 
   virtual void setPowersave(bool) = 0;
-  virtual bool getPowersave() = 0;
+  virtual bool getPowersave() const = 0;
 
 };
 

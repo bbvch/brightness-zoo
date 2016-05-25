@@ -16,7 +16,7 @@ public:
   virtual ~Brightness() = default;
 
   virtual void setBrightness(qint32) = 0;
-  virtual qint32 getBrightness() = 0;
+  virtual qint32 getBrightness() const = 0;
 
 };
 

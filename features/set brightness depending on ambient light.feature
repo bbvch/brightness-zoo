@@ -8,7 +8,6 @@ Feature: Set brightness depending on the current ambient light
   I want to be able to have an adequate brightness
   In order to see the screen in the night and in direct sunlight
 
-@wip
 Scenario Outline: Set the brightness depending on the ambient light
   Given I start dummy-brightnessd
   And I have a directory "device"
