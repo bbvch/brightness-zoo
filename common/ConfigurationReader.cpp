@@ -10,6 +10,7 @@
 
 #include <QCoreApplication>
 #include <QSettings>
+#include <QTime>
 
 ConfigurationReader::ConfigurationReader(ConfigurationReader::Reader _reader) :
   reader{_reader}
@@ -24,6 +25,18 @@ unsigned ConfigurationReader::read(QString key, unsigned defaultValue) const
     value = defaultValue;
   }
   return value;
+}
+
+std::chrono::seconds ConfigurationReader::read(QString key, std::chrono::seconds defaultValue) const
+{
+  const auto defaultString = QTime::fromMSecsSinceStartOfDay(defaultValue.count() * 1000).toString("m:ss");
+  const QString raw = reader(key, defaultString).toString();
+  const QTime time = QTime::fromString(raw, "m:ss");
+  if (time.isValid()) {
+    return std::chrono::seconds{time.msecsSinceStartOfDay() / 1000};
+  } else {
+    return defaultValue;
+  }
 }
 
 QSettingsReader::QSettingsReader() :

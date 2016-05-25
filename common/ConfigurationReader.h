@@ -10,6 +10,7 @@
 #define CONFIGURATIONREADER_H
 
 #include <functional>
+#include <chrono>
 #include <QVariant>
 #include <QString>
 #include <QSettings>
@@ -22,6 +23,7 @@ public:
   ConfigurationReader(Reader reader);
 
   unsigned read(QString key, unsigned defaultValue) const;
+  std::chrono::seconds read(QString key, std::chrono::seconds defaultValue) const;
 
 private:
   Reader reader;
