@@ -10,6 +10,8 @@ CONFIG -= app_bundle
 
 QT += testlib
 
+TARGET = common.test
+
 LIBS += -lgtest -lgmock -lgtest_main
 
 HEADERS += \

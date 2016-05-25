@@ -10,6 +10,8 @@ CONFIG -= app_bundle
 
 QT += testlib
 
+TARGET = ambientlightd.test
+
 LIBS += -lgtest -lgmock -lgtest_main
 
 INCLUDEPATH += ../common/

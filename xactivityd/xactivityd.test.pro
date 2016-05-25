@@ -10,6 +10,8 @@ CONFIG -= app_bundle
 
 QT += testlib
 
+TARGET = xactivityd.test
+
 LIBS += -lgtest -lgmock -lgtest_main
 
 SOURCES += \
