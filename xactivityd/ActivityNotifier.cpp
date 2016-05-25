@@ -8,7 +8,7 @@
 
 #include "ActivityNotifier.h"
 
-ActivityNotifier::ActivityNotifier(std::chrono::minutes _timeout, IdleGetter _idle, QObject *parent) :
+ActivityNotifier::ActivityNotifier(std::chrono::seconds _timeout, IdleGetter _idle, QObject *parent) :
   QObject{parent},
   timeout{_timeout},
   idle{_idle}

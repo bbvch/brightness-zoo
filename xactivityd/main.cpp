@@ -17,12 +17,11 @@
 #include <iostream>
 #include <chrono>
 
-static std::chrono::minutes activityTimeout()
+static std::chrono::seconds activityTimeout()
 {
   QSettingsReader configuration;
 
-  uint value = configuration.read("activityTimeoutInMinutes", 2);
-  return std::chrono::minutes{value};
+  return configuration.read("activityTimeout", std::chrono::minutes{2});
 }
 
 int main(int argc, char *argv[])

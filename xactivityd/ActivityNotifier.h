@@ -20,7 +20,7 @@ class ActivityNotifier :
 public:
   typedef std::function<std::chrono::milliseconds()> IdleGetter;
 
-  ActivityNotifier(std::chrono::minutes timeout, IdleGetter idle, QObject *parent = 0);
+  ActivityNotifier(std::chrono::seconds timeout, IdleGetter idle, QObject *parent = 0);
 
 signals:
   void active();
@@ -36,7 +36,7 @@ private:
     Inactive
   };
 
-  std::chrono::minutes timeout{5};
+  std::chrono::seconds timeout{5};
   IdleGetter idle;
   State state{State::Boot};
 
