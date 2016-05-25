@@ -9,48 +9,15 @@
 #include "convert/LinearConfiguration.h"
 #include "convert/LinearWithSaturation.h"
 #include "BrightnessProxy.h"
+#include "Configuration.h"
 #include <sysfs/RoValue.h>
 #include <DbusNames.h>
-#include <ConfigurationReader.h>
 
 #include <QCoreApplication>
 #include <QTimer>
-#include <QCommandLineParser>
 #include <iostream>
+#include <chrono>
 
-static QString parseCmdline(const QStringList &arguments) {
-  QCommandLineParser parser;
-  parser.addHelpOption();
-
-  QCommandLineOption device{"device", "the root sysfs folder of the ambient light sensor", "path"};
-  parser.addOption(device);
-
-  QCommandLineOption single{"single", "read the sensor, write the brightness and exit"};
-  parser.addOption(single);
-
-  parser.process(arguments);
-
-  if (!parser.isSet(device)) {
-    parser.showHelp(-1);
-    return {};
-  }
-
-  return parser.value(device);
-}
-
-static LinearConfiguration loadConfiguration()
-{
-  QSettingsReader file;
-
-  LinearConfiguration result;
-
-  result.minAmbient = file.read("minLux", 1);
-  result.minBrightness = file.read("minBrightness", 10);
-  result.maxAmbient = file.read("maxLux", 25000);
-  result.maxBrightness = file.read("maxBrightness", 100);
-
-  return result;
-}
 
 int main(int argc, char *argv[])
 {
@@ -59,10 +26,11 @@ int main(int argc, char *argv[])
 
   QCoreApplication app(argc, argv);
 
-  const auto device = parseCmdline(app.arguments());
+  const auto configuration = loadConfiguration(app.arguments());
 
-  sysfs::RoValue sensor{device + "/in_illuminance_input"};
-  LinearWithSaturation convert{loadConfiguration()};
+  sysfs::RoValue sensor{configuration.device + "/in_illuminance_input"};
+  LinearWithSaturation convert{configuration};
+
   BrightnessProxy brightness{DbusNames::brightnessService(), DbusNames::brightnessPath(), QDBusConnection::sessionBus()};
   if (!brightness.isValid()) {
     std::cerr << "could not connect to service " << brightness.service().toStdString() << " path " << brightness.path().toStdString() << ":" << std::endl;
@@ -72,8 +40,20 @@ int main(int argc, char *argv[])
 
   AmbientLightD ambientLight{sensor, convert, brightness};
 
-  QTimer::singleShot(0, &ambientLight, SLOT(check()));
-  QTimer::singleShot(0, &app, SLOT(quit()));
+  ambientLight.check();
+
+  if (configuration.single) {
+    return 0;
+  }
+
+  QTimer timer;
+
+  QObject::connect(&timer, SIGNAL(timeout()), &ambientLight, SLOT(check()));
+
+  auto const updateInMilliseconds = std::chrono::milliseconds{configuration.updateInterval}.count();
+  timer.setInterval(updateInMilliseconds);
+  timer.setSingleShot(false);
+  timer.start();
 
   return app.exec();
 }

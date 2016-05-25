@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     ../common/sysfs/RoValue.cpp \
     BrightnessProxy.cpp \
     ../common/DbusNames.cpp \
-    ../common/ConfigurationReader.cpp
+    ../common/ConfigurationReader.cpp \
+    Configuration.cpp
 
 HEADERS += \
     AmbientLightD.h \
@@ -35,4 +36,5 @@ HEADERS += \
     BrightnessProxy.h \
     ../common/DbusNames.h \
     ../common/Brightness.h \
-    ../common/ConfigurationReader.h
+    ../common/ConfigurationReader.h \
+    Configuration.h
