@@ -11,6 +11,7 @@
 #include "BrightnessProxy.h"
 #include <sysfs/RoValue.h>
 #include <DbusNames.h>
+#include <Configuration.h>
 
 #include <QCoreApplication>
 #include <QTimer>
@@ -37,21 +38,31 @@ static QString parseCmdline(const QStringList &arguments) {
   return parser.value(device);
 }
 
+static LinearConfiguration loadConfiguration()
+{
+  QSettingsConfig file;
+
+  LinearConfiguration result;
+
+  result.minAmbient = file.read("minLux", 1);
+  result.minBrightness = file.read("minBrightness", 10);
+  result.maxAmbient = file.read("maxLux", 25000);
+  result.maxBrightness = file.read("maxBrightness", 100);
+
+  return result;
+}
+
 int main(int argc, char *argv[])
 {
+  QCoreApplication::setOrganizationName("brightness-zoo");
+  QCoreApplication::setApplicationName("ambientlightd");
+
   QCoreApplication app(argc, argv);
 
   const auto device = parseCmdline(app.arguments());
 
-  LinearConfiguration configuration;
-
-  configuration.minAmbient = 1;
-  configuration.minBrightness = 10;
-  configuration.maxAmbient = 25000;
-  configuration.maxBrightness = 100;
-
   sysfs::RoValue sensor{device + "/in_illuminance_input"};
-  LinearWithSaturation convert{configuration};
+  LinearWithSaturation convert{loadConfiguration()};
   BrightnessProxy brightness{DbusNames::brightnessService(), DbusNames::brightnessPath(), QDBusConnection::sessionBus()};
   if (!brightness.isValid()) {
     std::cerr << "could not connect to service " << brightness.service().toStdString() << " path " << brightness.path().toStdString() << ":" << std::endl;

@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     convert/LinearWithSaturation.cpp \
     ../common/sysfs/RoValue.cpp \
     BrightnessProxy.cpp \
-    ../common/DbusNames.cpp
+    ../common/DbusNames.cpp \
+    ../common/Configuration.cpp
 
 HEADERS += \
     AmbientLightD.h \
@@ -33,4 +34,5 @@ HEADERS += \
     ../common/sysfs/RoValue.h \
     BrightnessProxy.h \
     ../common/DbusNames.h \
-    ../common/Brightness.h
+    ../common/Brightness.h \
+    ../common/Configuration.h
