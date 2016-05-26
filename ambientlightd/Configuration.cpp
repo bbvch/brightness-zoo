@@ -41,7 +41,7 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
   parser.process(arguments);
 
   if (!parser.isSet(device)) {
-    parser.showHelp(-1);
+    parser.showHelp(-2);
     return;
   }
 

@@ -28,7 +28,7 @@ static QString parseCmdline(const QStringList &arguments) {
   parser.process(arguments);
 
   if (!parser.isSet(device)) {
-    parser.showHelp(-1);
+    parser.showHelp(-2);
     return {};
   }
 
@@ -54,12 +54,12 @@ int main(int argc, char *argv[])
 
   if (!bus.isConnected()) {
     std::cerr << "bus not connected" << std::endl;
-    return -1;
+    return -3;
   }
 
   if(!bus.registerService(DbusNames::brightnessService())) {
       std::cerr << "Could not register service" << std::endl;
-      return -1;
+      return -4;
   }
 
   sysfs::WoValue brightnessFile{root + "/brightness"};
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 
   if(!bus.registerObject(DbusNames::brightnessPath(), &app)){
     std::cerr << "Could not register object" << std::endl;
-    return -1;
+    return -5;
   }
 
   return app.exec();

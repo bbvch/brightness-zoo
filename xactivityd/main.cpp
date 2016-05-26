@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
   if (!powersave.isValid()) {
     std::cerr << "could not connect to service " << powersave.service().toStdString() << " path " << powersave.path().toStdString() << ":" << std::endl;
     std::cerr << powersave.lastError().message().toStdString() << std::endl;
-    return -1;
+    return -2;
   }
 
   Xidle idle{};

@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
   if (!brightness.isValid()) {
     std::cerr << "could not connect to service " << brightness.service().toStdString() << " path " << brightness.path().toStdString() << ":" << std::endl;
     std::cerr << brightness.lastError().message().toStdString() << std::endl;
-    return -1;
+    return -3;
   }
 
   AmbientLightD ambientLight{sensor, convert, brightness};
