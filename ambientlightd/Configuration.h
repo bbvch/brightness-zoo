@@ -13,6 +13,7 @@
 #include <QString>
 #include <QStringList>
 #include <chrono>
+#include <QDBusConnection>
 
 class Configuration :
     public LinearConfiguration
@@ -21,6 +22,7 @@ public:
   std::chrono::seconds updateInterval;
   QString device;
   bool single;
+  QDBusConnection bus{""};
 };
 
 Configuration loadConfiguration(const QStringList &arguments);

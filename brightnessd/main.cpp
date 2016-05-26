@@ -13,26 +13,42 @@
 
 #include <ConfigurationReader.h>
 #include <DbusNames.h>
+#include <DbusCommandLine.h>
 
 #include <QCoreApplication>
 #include <QCommandLineParser>
 #include <iostream>
 
-static QString parseCmdline(const QStringList &arguments) {
+
+class Configuration
+{
+public:
+  QString device;
+  QDBusConnection bus{""};
+};
+
+static Configuration parseCmdline(const QStringList &arguments)
+{
   QCommandLineParser parser;
   parser.addHelpOption();
 
   QCommandLineOption device{"device", "the root sysfs folder of the brightness device", "path"};
   parser.addOption(device);
 
+  DbusCommandLine dbus{-3};
+  parser.addOptions(dbus.options());
+
   parser.process(arguments);
 
   if (!parser.isSet(device)) {
     parser.showHelp(-2);
-    return {};
   }
 
-  return parser.value(device);
+  Configuration configuration;
+  configuration.device = parser.value(device);
+  configuration.bus = dbus.parse(parser);
+
+  return configuration;
 }
 
 static unsigned powersaveBrightnessPercentage()
@@ -48,28 +64,23 @@ int main(int argc, char *argv[])
 
   QCoreApplication app(argc, argv);
 
-  const auto root = parseCmdline(app.arguments());
+  const auto configuration = parseCmdline(app.arguments());
 
-  auto bus = QDBusConnection::sessionBus();
-
-  if (!bus.isConnected()) {
-    std::cerr << "bus not connected" << std::endl;
-    return -3;
-  }
-
-  if(!bus.registerService(DbusNames::brightnessService())) {
-      std::cerr << "Could not register service" << std::endl;
-      return -4;
-  }
-
-  sysfs::WoValue brightnessFile{root + "/brightness"};
-  sysfs::RoValue maxBrightnessFile{root + "/max_brightness"};
+  sysfs::WoValue brightnessFile{configuration.device + "/brightness"};
+  sysfs::RoValue maxBrightnessFile{configuration.device + "/max_brightness"};
   SysfsDevice device{brightnessFile, maxBrightnessFile};
 
   BrightnessControl control{powersaveBrightnessPercentage(), device};
 
   new dbus::brightness::Power(control, &app);
   new dbus::brightness::PowerSave(control, &app);
+
+  auto bus = configuration.bus;
+
+  if (!bus.registerService(DbusNames::brightnessService())) {
+      std::cerr << "Could not register service" << std::endl;
+      return -4;
+  }
 
   if(!bus.registerObject(DbusNames::brightnessPath(), &app)){
     std::cerr << "Could not register object" << std::endl;

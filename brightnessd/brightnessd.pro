@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     BrightnessControl.cpp \
     SysfsDevice.cpp \
     ../common/DbusNames.cpp \
-    ../common/ConfigurationReader.cpp
+    ../common/ConfigurationReader.cpp \
+    ../common/DbusCommandLine.cpp
 
 HEADERS += \
     Device.h \
@@ -41,4 +42,5 @@ HEADERS += \
     Powersave.h \
     SysfsDevice.h \
     ../common/DbusNames.h \
-    ../common/ConfigurationReader.h
+    ../common/ConfigurationReader.h \
+    ../common/DbusCommandLine.h

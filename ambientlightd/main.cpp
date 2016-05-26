@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
   sysfs::RoValue sensor{configuration.device + "/in_illuminance_input"};
   LinearWithSaturation convert{configuration};
 
-  BrightnessProxy brightness{DbusNames::brightnessService(), DbusNames::brightnessPath(), QDBusConnection::sessionBus()};
+  BrightnessProxy brightness{DbusNames::brightnessService(), DbusNames::brightnessPath(), configuration.bus};
   if (!brightness.isValid()) {
     std::cerr << "could not connect to service " << brightness.service().toStdString() << " path " << brightness.path().toStdString() << ":" << std::endl;
     std::cerr << brightness.lastError().message().toStdString() << std::endl;
-    return -3;
+    return -4;
   }
 
   AmbientLightD ambientLight{sensor, convert, brightness};

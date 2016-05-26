@@ -11,11 +11,25 @@
 
 #include <ConfigurationReader.h>
 #include <DbusNames.h>
+#include <DbusCommandLine.h>
 
 #include <QCoreApplication>
 #include <QTimer>
 #include <iostream>
 #include <chrono>
+
+static QDBusConnection parseCmdline(const QStringList &arguments)
+{
+  QCommandLineParser parser;
+  parser.addHelpOption();
+
+  DbusCommandLine dbus{-3};
+  parser.addOptions(dbus.options());
+
+  parser.process(arguments);
+
+  return dbus.parse(parser);
+}
 
 static std::chrono::seconds activityTimeout()
 {
@@ -31,7 +45,9 @@ int main(int argc, char *argv[])
 
   QCoreApplication app(argc, argv);
 
-  PowersaveProxy powersave{DbusNames::brightnessService(), DbusNames::brightnessPath(), QDBusConnection::sessionBus()};
+  const auto bus = parseCmdline(app.arguments());
+
+  PowersaveProxy powersave{DbusNames::brightnessService(), DbusNames::brightnessPath(), bus};
   if (!powersave.isValid()) {
     std::cerr << "could not connect to service " << powersave.service().toStdString() << " path " << powersave.path().toStdString() << ":" << std::endl;
     std::cerr << powersave.lastError().message().toStdString() << std::endl;

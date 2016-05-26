@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     BrightnessProxy.cpp \
     ../common/DbusNames.cpp \
     ../common/ConfigurationReader.cpp \
-    Configuration.cpp
+    Configuration.cpp \
+    ../common/DbusCommandLine.cpp
 
 HEADERS += \
     AmbientLightD.h \
@@ -40,4 +41,5 @@ HEADERS += \
     ../common/DbusNames.h \
     ../common/Brightness.h \
     ../common/ConfigurationReader.h \
-    Configuration.h
+    Configuration.h \
+    ../common/DbusCommandLine.h

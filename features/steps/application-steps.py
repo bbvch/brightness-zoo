@@ -24,7 +24,7 @@ def waitForDbusService():
 @given(u'I start brightnessd with the device "{device}"')
 def step_impl(context, device):
 	device = context.tmpdir + '/' + device
-	context.brightnessd = startApplication(context, ['brightnessd', '--device=' + device])
+	context.brightnessd = startApplication(context, ['brightnessd', '--session', '--device=' + device])
 	waitForDbusService()
 
 
@@ -37,13 +37,13 @@ def step_impl(context):
 @when(u'I run ambientlightd with the device "{device}"')
 def step_impl(context, device):
 	device = context.tmpdir + '/' + device
-	context.ambientlightd = startApplication(context, ['ambientlightd', '--single', '--device=' + device])
+	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', '--single', '--device=' + device])
 	context.ambientlightd.wait()
 
 
 @when(u'I run ambientlightd with the argument "{arg1}"')
 def step_impl(context, arg1):
-	context.ambientlightd = startApplication(context, ['ambientlightd', arg1])
+	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', arg1])
 	context.ambientlightd.wait()
 
 

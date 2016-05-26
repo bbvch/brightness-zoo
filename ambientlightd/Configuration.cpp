@@ -8,6 +8,7 @@
 #include "Configuration.h"
 
 #include <ConfigurationReader.h>
+#include <DbusCommandLine.h>
 
 #include <QCommandLineParser>
 
@@ -18,6 +19,7 @@ static Configuration defaultConfiguration()
   result.device = "";
   result.single = false;
   result.updateInterval = std::chrono::minutes{1};
+  result.bus = QDBusConnection{""};
 
   result.minAmbient = 1;
   result.minBrightness = 10;
@@ -38,6 +40,9 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
   QCommandLineOption single{"single", "read the sensor, write the brightness and exit"};
   parser.addOption(single);
 
+  DbusCommandLine dbus{-3};
+  parser.addOptions(dbus.options());
+
   parser.process(arguments);
 
   if (!parser.isSet(device)) {
@@ -47,6 +52,7 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
 
   configuration.device = parser.value(device);
   configuration.single = parser.isSet(single);
+  configuration.bus = dbus.parse(parser);
 }
 
 static void loadConfigurationFile(Configuration &configuration)
