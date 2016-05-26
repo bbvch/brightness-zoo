@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     PowersaveProxy.cpp \
     ../common/ConfigurationReader.cpp \
     ../common/DbusNames.cpp \
-    ../common/DbusCommandLine.cpp
+    ../common/DbusCommandLine.cpp \
+    Configuration.cpp
 
 HEADERS += \
     idletime.h \
@@ -39,4 +40,5 @@ HEADERS += \
     PowersaveProxy.h \
     ../common/ConfigurationReader.h \
     ../common/DbusNames.h \
-    ../common/DbusCommandLine.h
+    ../common/DbusCommandLine.h \
+    Configuration.h

@@ -8,35 +8,14 @@
 #include "ActivityNotifier.h"
 #include "PowersaveProxy.h"
 #include "Xidle.h"
+#include "Configuration.h"
 
-#include <ConfigurationReader.h>
 #include <DbusNames.h>
-#include <DbusCommandLine.h>
 
 #include <QCoreApplication>
 #include <QTimer>
 #include <iostream>
 #include <chrono>
-
-static QDBusConnection parseCmdline(const QStringList &arguments)
-{
-  QCommandLineParser parser;
-  parser.addHelpOption();
-
-  DbusCommandLine dbus{-3};
-  parser.addOptions(dbus.options());
-
-  parser.process(arguments);
-
-  return dbus.parse(parser);
-}
-
-static std::chrono::seconds activityTimeout()
-{
-  QSettingsReader configuration;
-
-  return configuration.read("activityTimeout", std::chrono::minutes{2});
-}
 
 int main(int argc, char *argv[])
 {
@@ -45,9 +24,9 @@ int main(int argc, char *argv[])
 
   QCoreApplication app(argc, argv);
 
-  const auto bus = parseCmdline(app.arguments());
+  const auto configuration = loadConfiguration(app.arguments());
 
-  PowersaveProxy powersave{DbusNames::brightnessService(), DbusNames::brightnessPath(), bus};
+  PowersaveProxy powersave{DbusNames::brightnessService(), DbusNames::brightnessPath(), configuration.bus};
   if (!powersave.isValid()) {
     std::cerr << "could not connect to service " << powersave.service().toStdString() << " path " << powersave.path().toStdString() << ":" << std::endl;
     std::cerr << powersave.lastError().message().toStdString() << std::endl;
@@ -55,7 +34,7 @@ int main(int argc, char *argv[])
   }
 
   Xidle idle{};
-  ActivityNotifier notifier{activityTimeout(), [&idle](){return idle();}};
+  ActivityNotifier notifier{configuration.activityTimeout, [&idle](){return idle();}};
   QTimer timer;
 
   QObject::connect(&timer, SIGNAL(timeout()), &notifier, SLOT(check()));
