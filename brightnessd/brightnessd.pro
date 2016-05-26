@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     SysfsDevice.cpp \
     ../common/DbusNames.cpp \
     ../common/ConfigurationReader.cpp \
-    ../common/DbusCommandLine.cpp
+    ../common/DbusCommandLine.cpp \
+    Configuration.cpp
 
 HEADERS += \
     Device.h \
@@ -43,4 +44,5 @@ HEADERS += \
     SysfsDevice.h \
     ../common/DbusNames.h \
     ../common/ConfigurationReader.h \
-    ../common/DbusCommandLine.h
+    ../common/DbusCommandLine.h \
+    Configuration.h
