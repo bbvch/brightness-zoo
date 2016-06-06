@@ -59,9 +59,9 @@ static void loadConfigurationFile(Configuration &configuration)
 {
   QSettingsReader file;
 
-  configuration.minAmbient = file.read("minLux", configuration.minAmbient);
+  configuration.minAmbient = file.read("minAmbient", configuration.minAmbient);
   configuration.minBrightness = file.read("minBrightness", configuration.minBrightness);
-  configuration.maxAmbient = file.read("maxLux", configuration.maxAmbient);
+  configuration.maxAmbient = file.read("maxAmbient", configuration.maxAmbient);
   configuration.maxBrightness = file.read("maxBrightness", configuration.maxBrightness);
 
   configuration.updateInterval = file.read("updateInterval", configuration.updateInterval);

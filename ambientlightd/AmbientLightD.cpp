@@ -17,7 +17,7 @@ AmbientLightD::AmbientLightD(sysfs::Reader &_ambientLight, AmbientToBrightness &
 
 void AmbientLightD::check()
 {
-  const auto lux = ambientLight.read().toInt();
-  const auto brightness = convert.brigthnessFromLux(lux);
+  const auto ambient = ambientLight.read().toInt();
+  const auto brightness = convert.brigthnessFromAmbient(ambient);
   this->brightness.setBrightness(brightness);
 }

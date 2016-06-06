@@ -16,7 +16,7 @@ class AmbientToBrightness_Mock :
     public AmbientToBrightness
 {
 public:
-  MOCK_CONST_METHOD1(brigthnessFromLux, int(int));
+  MOCK_CONST_METHOD1(brigthnessFromAmbient, int(int));
 
 };
 

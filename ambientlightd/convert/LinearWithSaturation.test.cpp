@@ -22,9 +22,9 @@ TEST(LinearWithSaturation_Test, produce_sane_value_for_insane_ambient_parameter)
   configuration.maxBrightness = 90;
   LinearWithSaturation testee{configuration};
 
-  ASSERT_EQ(10, testee.brigthnessFromLux(500));
-  ASSERT_EQ(50, testee.brigthnessFromLux(1000));
-  ASSERT_EQ(90, testee.brigthnessFromLux(1500));
+  ASSERT_EQ(10, testee.brigthnessFromAmbient(500));
+  ASSERT_EQ(50, testee.brigthnessFromAmbient(1000));
+  ASSERT_EQ(90, testee.brigthnessFromAmbient(1500));
 }
 
 TEST(LinearWithSaturation_Test, produce_sane_value_for_insane_brightness_parameter)
@@ -36,9 +36,9 @@ TEST(LinearWithSaturation_Test, produce_sane_value_for_insane_brightness_paramet
   configuration.maxBrightness = 50;
   LinearWithSaturation testee{configuration};
 
-  ASSERT_EQ(50, testee.brigthnessFromLux(500));
-  ASSERT_EQ(50, testee.brigthnessFromLux(1000));
-  ASSERT_EQ(50, testee.brigthnessFromLux(1500));
+  ASSERT_EQ(50, testee.brigthnessFromAmbient(500));
+  ASSERT_EQ(50, testee.brigthnessFromAmbient(1000));
+  ASSERT_EQ(50, testee.brigthnessFromAmbient(1500));
 }
 
 TEST(LinearWithSaturation_Test, convert_ambient_value_linear_to_configuration)
@@ -50,9 +50,9 @@ TEST(LinearWithSaturation_Test, convert_ambient_value_linear_to_configuration)
   configuration.maxBrightness = 100;
   LinearWithSaturation testee{configuration};
 
-  ASSERT_EQ(10, testee.brigthnessFromLux(1));
-  ASSERT_EQ(55, testee.brigthnessFromLux(500));
-  ASSERT_EQ(100, testee.brigthnessFromLux(1000));
+  ASSERT_EQ(10, testee.brigthnessFromAmbient(1));
+  ASSERT_EQ(55, testee.brigthnessFromAmbient(500));
+  ASSERT_EQ(100, testee.brigthnessFromAmbient(1000));
 }
 
 TEST(LinearWithSaturation_Test, works_as_expected_for_inverse_linearity)
@@ -64,12 +64,12 @@ TEST(LinearWithSaturation_Test, works_as_expected_for_inverse_linearity)
   configuration.maxBrightness = 10;
   LinearWithSaturation testee{configuration};
 
-  ASSERT_EQ(100, testee.brigthnessFromLux(1));
-  ASSERT_EQ(55, testee.brigthnessFromLux(500));
-  ASSERT_EQ(10, testee.brigthnessFromLux(1000));
+  ASSERT_EQ(100, testee.brigthnessFromAmbient(1));
+  ASSERT_EQ(55, testee.brigthnessFromAmbient(500));
+  ASSERT_EQ(10, testee.brigthnessFromAmbient(1000));
 }
 
-TEST(LinearWithSaturation_Test, use_min_max_value_for_out_of_range_lux_values)
+TEST(LinearWithSaturation_Test, use_min_max_value_for_out_of_range_ambient_values)
 {
   LinearConfiguration configuration;
   configuration.minAmbient = 10;
@@ -78,12 +78,12 @@ TEST(LinearWithSaturation_Test, use_min_max_value_for_out_of_range_lux_values)
   configuration.maxBrightness = 90;
   LinearWithSaturation testee{configuration};
 
-  ASSERT_EQ(10, testee.brigthnessFromLux(-1));
-  ASSERT_EQ(10, testee.brigthnessFromLux(0));
-  ASSERT_EQ(10, testee.brigthnessFromLux(1));
+  ASSERT_EQ(10, testee.brigthnessFromAmbient(-1));
+  ASSERT_EQ(10, testee.brigthnessFromAmbient(0));
+  ASSERT_EQ(10, testee.brigthnessFromAmbient(1));
 
-  ASSERT_EQ(90, testee.brigthnessFromLux(2000));
-  ASSERT_EQ(90, testee.brigthnessFromLux(10000));
-  ASSERT_EQ(90, testee.brigthnessFromLux(1000000));
+  ASSERT_EQ(90, testee.brigthnessFromAmbient(2000));
+  ASSERT_EQ(90, testee.brigthnessFromAmbient(10000));
+  ASSERT_EQ(90, testee.brigthnessFromAmbient(1000000));
 }
 

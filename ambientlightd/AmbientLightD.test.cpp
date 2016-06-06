@@ -36,14 +36,14 @@ TEST_F(AmbientLightD_Test, use_ambient_light_from_sensor)
 {
   ON_CALL(ambientLight, read()).WillByDefault(testing::Return(QString{"1234"}));
 
-  EXPECT_CALL(convert, brigthnessFromLux(1234));
+  EXPECT_CALL(convert, brigthnessFromAmbient(1234));
 
   testee.check();
 }
 
 TEST_F(AmbientLightD_Test, use_brightness_from_convertion)
 {
-  ON_CALL(convert, brigthnessFromLux(testing::_)).WillByDefault(testing::Return(57));
+  ON_CALL(convert, brigthnessFromAmbient(testing::_)).WillByDefault(testing::Return(57));
 
   EXPECT_CALL(brightness, setBrightness(57));
 

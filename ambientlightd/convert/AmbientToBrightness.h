@@ -13,7 +13,7 @@ class AmbientToBrightness
 public:
   virtual ~AmbientToBrightness() = default;
 
-  virtual int brigthnessFromLux(int) const = 0;
+  virtual int brigthnessFromAmbient(int) const = 0;
 
 };
 

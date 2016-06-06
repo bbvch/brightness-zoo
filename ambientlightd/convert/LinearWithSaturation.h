@@ -17,7 +17,7 @@ class LinearWithSaturation :
 public:
   LinearWithSaturation(const LinearConfiguration &configuration);
 
-  int brigthnessFromLux(int) const override;
+  int brigthnessFromAmbient(int) const override;
 
 private:
   class Point

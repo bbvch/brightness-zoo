@@ -33,7 +33,7 @@ static int roundDiv(int dividend, int divisor)
  *     |
  *     min.x
  */
-int LinearWithSaturation::brigthnessFromLux(int x) const
+int LinearWithSaturation::brigthnessFromAmbient(int x) const
 {
   if (x < min.x) {
     return min.y;
