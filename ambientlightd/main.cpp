@@ -10,7 +10,8 @@
 #include "convert/LinearWithSaturation.h"
 #include "BrightnessProxy.h"
 #include "Configuration.h"
-#include "sensor/IioSensor.h"
+#include "sensor/CongatecOsApi.h"
+#include "sensor/Apds9300.h"
 #include <DbusNames.h>
 
 #include <QCoreApplication>
@@ -27,7 +28,8 @@ int main(int argc, char *argv[])
 
   const auto configuration = loadConfiguration(app.arguments());
 
-  IioSensor sensor{configuration.device};
+  CongatecOsApi cgos;
+  Apds9300 sensor{cgos.primaryI2c()};
   LinearWithSaturation convert{configuration};
 
   BrightnessProxy brightness{DbusNames::brightnessService(), DbusNames::brightnessPath(), configuration.bus};

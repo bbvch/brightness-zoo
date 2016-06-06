@@ -20,7 +20,6 @@ class Configuration :
 {
 public:
   std::chrono::seconds updateInterval;
-  QString device;
   bool single;
   bool verbose;
   QDBusConnection bus{""};

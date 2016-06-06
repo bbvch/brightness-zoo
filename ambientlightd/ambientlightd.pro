@@ -20,6 +20,8 @@ TEMPLATE = app
 
 INCLUDEPATH += ../common/
 
+LIBS += -lcgos
+
 SOURCES += main.cpp \
     AmbientLightD.cpp \
     convert/LinearWithSaturation.cpp \
@@ -29,7 +31,9 @@ SOURCES += main.cpp \
     ../common/ConfigurationReader.cpp \
     Configuration.cpp \
     ../common/DbusCommandLine.cpp \
-    sensor/IioSensor.cpp
+    sensor/IioSensor.cpp \
+    sensor/Apds9300.cpp \
+    sensor/CongatecOsApi.cpp
 
 HEADERS += \
     AmbientLightD.h \
@@ -46,4 +50,7 @@ HEADERS += \
     ../common/DbusCommandLine.h \
     sensor/AmbientLightSensor.h \
     sensor/AmbientLightSensor.mock.h \
-    sensor/IioSensor.h
+    sensor/IioSensor.h \
+    sensor/Apds9300.h \
+    sensor/I2c.h \
+    sensor/CongatecOsApi.h

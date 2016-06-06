@@ -23,7 +23,9 @@ SOURCES += \
     AmbientLightD.cpp \
     AmbientLightD.test.cpp \
     convert/LinearWithSaturation.cpp \
-    convert/LinearWithSaturation.test.cpp
+    convert/LinearWithSaturation.test.cpp \
+    sensor/Apds9300.test.cpp \
+    sensor/Apds9300.cpp
 
 HEADERS += \
     ../common/Brightness.h \
@@ -36,5 +38,7 @@ HEADERS += \
     convert/AmbientToBrightness.mock.h \
     convert/LinearConfiguration.h \
     sensor/AmbientLightSensor.h \
-    sensor/AmbientLightSensor.mock.h
+    sensor/AmbientLightSensor.mock.h \
+    sensor/I2c.mock.h \
+    sensor/Apds9300.h
 

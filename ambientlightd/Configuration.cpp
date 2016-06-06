@@ -16,7 +16,6 @@ static Configuration defaultConfiguration()
 {
   Configuration result;
 
-  result.device = "";
   result.single = false;
   result.verbose = false;
   result.updateInterval = std::chrono::minutes{1};
@@ -35,9 +34,6 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
   QCommandLineParser parser;
   parser.addHelpOption();
 
-  QCommandLineOption device{"device", "the root sysfs folder of the ambient light sensor", "path"};
-  parser.addOption(device);
-
   QCommandLineOption single{"single", "read the sensor, write the brightness and exit"};
   parser.addOption(single);
 
@@ -49,12 +45,6 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
 
   parser.process(arguments);
 
-  if (!parser.isSet(device)) {
-    parser.showHelp(-2);
-    return;
-  }
-
-  configuration.device = parser.value(device);
   configuration.single = parser.isSet(single);
   configuration.verbose = parser.isSet(verbose);
   configuration.bus = dbus.parse(parser);
