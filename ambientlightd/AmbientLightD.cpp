@@ -7,7 +7,7 @@
 
 #include "AmbientLightD.h"
 
-AmbientLightD::AmbientLightD(sysfs::Reader &_ambientLight, AmbientToBrightness &_convert, Brightness &_brightness, QObject *parent) :
+AmbientLightD::AmbientLightD(AmbientLightSensor &_ambientLight, AmbientToBrightness &_convert, Brightness &_brightness, QObject *parent) :
   QObject{parent},
   ambientLight{_ambientLight},
   convert{_convert},
@@ -17,7 +17,7 @@ AmbientLightD::AmbientLightD(sysfs::Reader &_ambientLight, AmbientToBrightness &
 
 void AmbientLightD::check()
 {
-  const auto ambient = ambientLight.read().toInt();
+  const auto ambient = ambientLight.read();
   const auto brightness = convert.brigthnessFromAmbient(ambient);
   this->brightness.setBrightness(brightness);
 }

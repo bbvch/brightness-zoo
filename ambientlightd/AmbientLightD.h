@@ -9,9 +9,9 @@
 #define AMBIENTLIGHTD_H
 
 #include "convert/AmbientToBrightness.h"
+#include "sensor/AmbientLightSensor.h"
 
 #include <Brightness.h>
-#include <sysfs/Reader.h>
 
 #include <QObject>
 
@@ -20,13 +20,13 @@ class AmbientLightD :
 {
   Q_OBJECT
 public:
-  AmbientLightD(sysfs::Reader &ambientLight, AmbientToBrightness &convert, Brightness &brightness, QObject *parent = 0);
+  AmbientLightD(AmbientLightSensor &ambientLight, AmbientToBrightness &convert, Brightness &brightness, QObject *parent = 0);
 
 public slots:
   void check();
 
 private:
-  sysfs::Reader &ambientLight;
+  AmbientLightSensor &ambientLight;
   AmbientToBrightness &convert;
   Brightness &brightness;
 

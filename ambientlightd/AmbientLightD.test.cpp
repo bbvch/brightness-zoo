@@ -6,9 +6,9 @@
  */
 
 #include "AmbientLightD.h"
+#include "sensor/AmbientLightSensor.mock.h"
 
 #include <Brightness.mock.h>
-#include <sysfs/Reader.mock.h>
 #include "convert/AmbientToBrightness.mock.h"
 
 #include <gtest/gtest.h>
@@ -18,7 +18,7 @@ class AmbientLightD_Test :
     public testing::Test
 {
 public:
-  testing::NiceMock<sysfs::Reader_Mock> ambientLight;
+  testing::NiceMock<AmbientLightSensor_Mock> ambientLight;
   testing::NiceMock<AmbientToBrightness_Mock> convert;
   testing::NiceMock<Brightness_Mock> brightness;
   AmbientLightD testee{ambientLight, convert, brightness};
@@ -34,7 +34,7 @@ TEST_F(AmbientLightD_Test, set_brightness_on_request)
 
 TEST_F(AmbientLightD_Test, use_ambient_light_from_sensor)
 {
-  ON_CALL(ambientLight, read()).WillByDefault(testing::Return(QString{"1234"}));
+  ON_CALL(ambientLight, read()).WillByDefault(testing::Return(1234));
 
   EXPECT_CALL(convert, brigthnessFromAmbient(1234));
 

@@ -10,14 +10,13 @@
 #include "convert/LinearWithSaturation.h"
 #include "BrightnessProxy.h"
 #include "Configuration.h"
-#include <sysfs/RoValue.h>
+#include "sensor/IioSensor.h"
 #include <DbusNames.h>
 
 #include <QCoreApplication>
 #include <QTimer>
 #include <iostream>
 #include <chrono>
-
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +27,7 @@ int main(int argc, char *argv[])
 
   const auto configuration = loadConfiguration(app.arguments());
 
-  sysfs::RoValue sensor{configuration.device + "/in_illuminance_input"};
+  IioSensor sensor{configuration.device};
   LinearWithSaturation convert{configuration};
 
   BrightnessProxy brightness{DbusNames::brightnessService(), DbusNames::brightnessPath(), configuration.bus};

@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     ../common/DbusNames.cpp \
     ../common/ConfigurationReader.cpp \
     Configuration.cpp \
-    ../common/DbusCommandLine.cpp
+    ../common/DbusCommandLine.cpp \
+    sensor/IioSensor.cpp
 
 HEADERS += \
     AmbientLightD.h \
@@ -42,4 +43,7 @@ HEADERS += \
     ../common/Brightness.h \
     ../common/ConfigurationReader.h \
     Configuration.h \
-    ../common/DbusCommandLine.h
+    ../common/DbusCommandLine.h \
+    sensor/AmbientLightSensor.h \
+    sensor/AmbientLightSensor.mock.h \
+    sensor/IioSensor.h

@@ -34,5 +34,7 @@ HEADERS += \
     convert/LinearWithSaturation.h \
     convert/AmbientToBrightness.h \
     convert/AmbientToBrightness.mock.h \
-    convert/LinearConfiguration.h
+    convert/LinearConfiguration.h \
+    sensor/AmbientLightSensor.h \
+    sensor/AmbientLightSensor.mock.h
 
