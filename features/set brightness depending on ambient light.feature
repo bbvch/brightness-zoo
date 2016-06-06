@@ -54,3 +54,22 @@ Scenario: ambientlightd prints an error when the ambient light sensor is not ava
 
   Then I expect the string "file "/sys/not-here/in_illuminance_input" not found" on stderr from ambientlightd
 
+Scenario Outline: print information to standard output in verbose mode
+  Given I start dummy-brightnessd
+  And I have a directory "device"
+  And I have a file "device/in_illuminance_input" with the content "<ambient>"
+
+  When I run ambientlightd with the device "device" and argument "--verbose"
+
+  Then I expect the string "read ambient value <ambient>" on stdout from ambientlightd
+  And I expect the string "write brightness value <brightness>" on stdout from ambientlightd
+
+  Examples:
+    | ambient | brightness |
+    |   25000 |        100 |
+    |       1 |         10 |
+    |  100000 |        100 |
+    |   10000 |         46 |
+    |    1000 |         14 |
+    |       0 |         10 |
+

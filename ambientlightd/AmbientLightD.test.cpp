@@ -14,6 +14,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <sstream>
+
 class AmbientLightD_Test :
     public testing::Test
 {
@@ -21,7 +23,8 @@ public:
   testing::NiceMock<AmbientLightSensor_Mock> ambientLight;
   testing::NiceMock<AmbientToBrightness_Mock> convert;
   testing::NiceMock<Brightness_Mock> brightness;
-  AmbientLightD testee{ambientLight, convert, brightness};
+  std::stringstream log;
+  AmbientLightD testee{ambientLight, convert, brightness, log};
 
 };
 
@@ -48,4 +51,25 @@ TEST_F(AmbientLightD_Test, use_brightness_from_convertion)
   EXPECT_CALL(brightness, setBrightness(57));
 
   testee.check();
+}
+
+TEST_F(AmbientLightD_Test, print_information_in_verbose_mode)
+{
+  ON_CALL(ambientLight, read()).WillByDefault(testing::Return(42));
+  ON_CALL(convert, brigthnessFromAmbient(testing::_)).WillByDefault(testing::Return(57));
+
+  testee.setVerbose(true);
+  testee.check();
+
+  EXPECT_EQ("read ambient value 42\nwrite brightness value 57\n", log.str());
+}
+
+TEST_F(AmbientLightD_Test, print_nothing_when_not_in_verbose_mode)
+{
+  ON_CALL(ambientLight, read()).WillByDefault(testing::Return(42));
+  ON_CALL(convert, brigthnessFromAmbient(testing::_)).WillByDefault(testing::Return(57));
+
+  testee.check();
+
+  EXPECT_EQ("", log.str());
 }

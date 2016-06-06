@@ -34,21 +34,34 @@ def step_impl(context):
 	waitForDbusService()
 
 
+@when(u'I run ambientlightd with the device "{device}" and argument "{arg1}"')
+def step_impl(context, device, arg1):
+	device = context.tmpdir + '/' + device
+	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', '--single', '--device=' + device, arg1])
+	context.stdout = context.ambientlightd.stdout.read()
+	context.stderr = context.ambientlightd.stderr.read()
+	context.ambientlightd.wait()
+
 @when(u'I run ambientlightd with the device "{device}"')
 def step_impl(context, device):
 	device = context.tmpdir + '/' + device
 	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', '--single', '--device=' + device])
 	context.ambientlightd.wait()
-
+	context.stdout = context.ambientlightd.stdout.read()
+	context.stderr = context.ambientlightd.stderr.read()
 
 @when(u'I run ambientlightd with the argument "{arg1}"')
 def step_impl(context, arg1):
 	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', arg1])
 	context.ambientlightd.wait()
-
+	context.stdout = context.ambientlightd.stdout.read()
+	context.stderr = context.ambientlightd.stderr.read()
 
 @then(u'I expect the string "{text}" on stderr from ambientlightd')
 def step_impl(context, text):
-	output = context.ambientlightd.stderr.read()
-	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+	assert context.stderr.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+
+@then(u'I expect the string "{text}" on stdout from ambientlightd')
+def step_impl(context, text):
+	assert context.stdout.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 

@@ -18,6 +18,7 @@ static Configuration defaultConfiguration()
 
   result.device = "";
   result.single = false;
+  result.verbose = false;
   result.updateInterval = std::chrono::minutes{1};
   result.bus = QDBusConnection{""};
 
@@ -40,6 +41,9 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
   QCommandLineOption single{"single", "read the sensor, write the brightness and exit"};
   parser.addOption(single);
 
+  QCommandLineOption verbose{"verbose", "print more information"};
+  parser.addOption(verbose);
+
   DbusCommandLine dbus{-3};
   parser.addOptions(dbus.options());
 
@@ -52,6 +56,7 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
 
   configuration.device = parser.value(device);
   configuration.single = parser.isSet(single);
+  configuration.verbose = parser.isSet(verbose);
   configuration.bus = dbus.parse(parser);
 }
 

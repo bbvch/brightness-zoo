@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
     return -4;
   }
 
-  AmbientLightD ambientLight{sensor, convert, brightness};
+  AmbientLightD ambientLight{sensor, convert, brightness, std::cout};
+  ambientLight.setVerbose(configuration.verbose);
 
   ambientLight.check();
 

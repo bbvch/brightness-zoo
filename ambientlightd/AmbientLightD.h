@@ -14,13 +14,16 @@
 #include <Brightness.h>
 
 #include <QObject>
+#include <ostream>
 
 class AmbientLightD :
     public QObject
 {
   Q_OBJECT
 public:
-  AmbientLightD(AmbientLightSensor &ambientLight, AmbientToBrightness &convert, Brightness &brightness, QObject *parent = 0);
+  AmbientLightD(AmbientLightSensor &ambientLight, AmbientToBrightness &convert, Brightness &brightness, std::ostream &log, QObject *parent = 0);
+
+  void setVerbose(bool);
 
 public slots:
   void check();
@@ -29,7 +32,8 @@ private:
   AmbientLightSensor &ambientLight;
   AmbientToBrightness &convert;
   Brightness &brightness;
-
+  std::ostream &log;
+  bool verbose{false};
 };
 
 #endif
