@@ -39,6 +39,28 @@ TEST_F(SysfsDevice_Test, the_percentage_value_is_scaled_according_to_the_max_val
   testee.setPercentage(55);
 }
 
+TEST_F(SysfsDevice_Test, the_percentage_value_is_scaled_according_to_the_min_and_max_value_when_written)
+{
+  ON_CALL(maxBrightness, read()).WillByDefault(testing::Return(QString{"100"}));
+  testee.setMinimumValue(50);
+
+  EXPECT_CALL(brightness, write(QString{"75"}));
+
+  testee.setPercentage(50);
+}
+
+TEST_F(SysfsDevice_Test, the_maximal_value_is_used_when_the_minimal_value_is_bigger_than_the_maximal_value)
+{
+  ON_CALL(maxBrightness, read()).WillByDefault(testing::Return(QString{"15"}));
+  testee.setMinimumValue(120);
+
+  EXPECT_CALL(brightness, write(QString{"15"})).Times(3);
+
+  testee.setPercentage(0);
+  testee.setPercentage(50);
+  testee.setPercentage(100);
+}
+
 TEST_F(SysfsDevice_Test, the_value_is_rounded_when_written_to_the_device)
 {
   ON_CALL(maxBrightness, read()).WillByDefault(testing::Return(QString{"10"}));

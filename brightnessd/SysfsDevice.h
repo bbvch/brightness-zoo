@@ -22,6 +22,8 @@ class SysfsDevice :
 public:
   SysfsDevice(sysfs::Writer &brightness, sysfs::Reader &maxBrightness);
 
+  void setMinimumValue(uint);
+
 signals:
 
 public slots:
@@ -30,6 +32,10 @@ public slots:
 private:
   sysfs::Writer &brightness;
   sysfs::Reader &maxBrightness;
+  uint minimum{0};
+
+  uint calcValue(uint max, qint32 percentage) const;
+
 
 };
 

@@ -19,6 +19,7 @@ static Configuration defaultConfiguration()
   result.device = "";
   result.bus = QDBusConnection{""};
   result.powersaveBrightnessPercentage = 50;
+  result.minimumBrightness = 0;
 
   return result;
 }
@@ -49,6 +50,7 @@ static void loadConfigurationFile(Configuration &configuration)
   QSettingsReader file;
 
   configuration.powersaveBrightnessPercentage = file.read("powersaveBrightnessPercentage", configuration.powersaveBrightnessPercentage);
+  configuration.minimumBrightness = file.read("minimumBrightness", configuration.minimumBrightness);
 }
 
 Configuration loadConfiguration(const QStringList &arguments)

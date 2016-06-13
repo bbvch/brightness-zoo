@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
-Feature: Reduce the brightness of the backlight when set into powersave mode
+Feature: Reduce the brightness of the backlight when set to powersave mode
   As a manufacturer
   I want to reduce the display brightness
   In order to increase the display lifetime
