@@ -13,9 +13,24 @@ SysfsDevice::SysfsDevice(sysfs::Writer &_brightness, sysfs::Reader &_maxBrightne
 {
 }
 
+void SysfsDevice::setMinimumValue(uint value)
+{
+  minimum = value;
+}
+
 void SysfsDevice::setPercentage(qint32 percentage)
 {
-  auto max = maxBrightness.read().toInt();
-  auto value = (percentage * max + 50) / 100;
+  auto max = maxBrightness.read().toUInt();
+  auto value = calcValue(max, percentage);
   brightness.write(QString::number(value));
 }
+
+uint SysfsDevice::calcValue(uint max, qint32 percentage) const
+{
+  if (minimum >= max) {
+    return max;
+  } else {
+    return (percentage * (max-minimum) + 50) / 100 + minimum;
+  }
+}
+

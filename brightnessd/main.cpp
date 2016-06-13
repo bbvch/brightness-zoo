@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
   sysfs::WoValue brightnessFile{configuration.device + "/brightness"};
   sysfs::RoValue maxBrightnessFile{configuration.device + "/max_brightness"};
   SysfsDevice device{brightnessFile, maxBrightnessFile};
+  device.setMinimumValue(configuration.minimumBrightness);
 
   BrightnessControl control{configuration.powersaveBrightnessPercentage, device};
 
