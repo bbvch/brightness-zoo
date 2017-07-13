@@ -7,4 +7,4 @@ include(settings.pri)
 
 QT += testlib
 
-LIBS += -lgtest -lgmock -lgtest_main
+LIBS += -lgmock -lgtest_main
