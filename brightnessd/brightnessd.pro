@@ -26,6 +26,8 @@ SOURCES += main.cpp \
     ../common/ConfigurationReader.cpp \
     ../common/DbusCommandLine.cpp \
     Configuration.cpp \
+    CheckedBlock.cpp \
+    ValueCheck.cpp \
 
 HEADERS += \
     Device.h \
@@ -42,3 +44,5 @@ HEADERS += \
     ../common/ConfigurationReader.h \
     ../common/DbusCommandLine.h \
     Configuration.h \
+    CheckedBlock.h \
+    ValueCheck.h \

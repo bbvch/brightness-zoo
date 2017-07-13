@@ -16,6 +16,8 @@ SOURCES += \
     BrightnessControl.cpp \
     SysfsDevice.cpp \
     SysfsDevice.test.cpp \
+    CheckedBlock.cpp \
+    ValueCheck.cpp \
 
 HEADERS += \
     ../common/sysfs/Reader.mock.h \
@@ -25,3 +27,5 @@ HEADERS += \
     BrightnessControl.h \
     SysfsDevice.h \
     Device.mock.h \
+    CheckedBlock.h \
+    ValueCheck.h \

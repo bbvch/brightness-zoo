@@ -16,8 +16,8 @@ class Configuration
 {
 public:
   QString device;
-  unsigned powersaveBrightnessPercentage;
-  unsigned minimumBrightness;
+  qint32 powersaveBrightnessPercentage;
+  qint32 minimumBrightness;
   QDBusConnection bus{""};
 };
 

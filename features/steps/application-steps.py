@@ -12,7 +12,7 @@ def startApplication(context, arguments):
 	environment = dict(os.environ)
 	environment["XDG_CONFIG_HOME"] = context.tmpdir
 
-	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1)
 
 
 def waitForDbusService():
@@ -32,7 +32,6 @@ def step_impl(context, device):
 def step_impl(context):
 	context.brightnessd = startApplication(context, ['python', 'steps/dummy-brightnessd.py'])
 	waitForDbusService()
-
 
 @when(u'I run ambientlightd with the device "{device}" and argument "{arg1}"')
 def step_impl(context, device, arg1):
@@ -64,4 +63,17 @@ def step_impl(context, text):
 @then(u'I expect the string "{text}" on stdout from ambientlightd')
 def step_impl(context, text):
 	assert context.stdout.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+
+@then(u'I expect the string "{text}" on stderr from brightnessd')
+def step_impl(context, text):
+	output = context.brightnessd_stderr
+	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+
+@then(u'brightnessd exits with the error code -6')
+def step_impl(context):
+	context.brightnessd.wait()
+	context.brightnessd_stderr = context.brightnessd.stderr.read()
+	code = context.brightnessd.returncode
+	assert code == 256-6, 'expected to see "' + str(-6) + '", got: ' + str(code)
+
 

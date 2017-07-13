@@ -7,7 +7,7 @@
 
 #include "BrightnessControl.h"
 
-BrightnessControl::BrightnessControl(uint _reducedPower, Device &_device) :
+BrightnessControl::BrightnessControl(qint32 _reducedPower, Device &_device) :
   reducedPower{_reducedPower},
   device{_device}
 {
@@ -37,6 +37,7 @@ bool BrightnessControl::getPowersave() const
 
 void BrightnessControl::updateCalculated()
 {
+  //TODO sanity checks
   qint32 finalBrightness = brightness;
   if (powersave) {
     finalBrightness = finalBrightness * reducedPower / 100;

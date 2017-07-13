@@ -19,7 +19,7 @@ class BrightnessControl :
     public Powersave
 {
 public:
-  BrightnessControl(uint reducedPower, Device &device);
+  BrightnessControl(qint32 reducedPower, Device &device);
 
   void setBrightness(qint32) override;
   qint32 getBrightness() const override;
@@ -28,7 +28,7 @@ public:
   bool getPowersave() const override;
 
 private:
-  const uint reducedPower;
+  const qint32 reducedPower;
   qint32 brightness{100};
   bool powersave{false};
   Device &device;

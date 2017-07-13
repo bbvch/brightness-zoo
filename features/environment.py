@@ -13,8 +13,9 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
 	if hasattr(context, 'brightnessd'):
-		context.brightnessd.terminate()
-		context.brightnessd.wait()
+		if context.brightnessd.poll() is None:
+			context.brightnessd.terminate()
+			context.brightnessd.wait()
 
 	shutil.rmtree(context.tmpdir)
 

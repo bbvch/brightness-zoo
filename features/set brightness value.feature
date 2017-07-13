@@ -54,3 +54,25 @@ Scenario Outline: Set a minimal brightness
     |         90 |             15 |       5 |         14 |
     |        100 |             15 |       5 |         15 |
 
+Scenario Outline: Behave sanely when an invalid situation is detected
+  Given I write "minimumBrightness=<minimum>" to the brightnessd configuration file
+  And I have a directory "test"
+  And I have a file "test/max_brightness" with the content "<max brightness>"
+  And I have a file "test/brightness" with the content ""
+  And I start brightnessd with the device "test"
+
+  When I set the D-Bus property "percentage" to <percentage> of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
+
+  Then brightnessd exits with the error code -6  
+  And I expect the string "<error message>" on stderr from brightnessd
+  And I expect the file "test/brightness" to have the content ""
+
+  Examples:
+    | percentage | max brightness | minimum | error message                                       |
+    |          0 |              3 |      10 | minimum value (10) is out of range (0-3)            |
+    |        120 |            100 |      10 | brightness percentage (120) is out of range (0-100) |
+    |        -20 |            100 |      10 | brightness percentage (-20) is out of range (0-100) |
+    |         10 |             -1 |       0 | maximum value (-1) is invalid                       |
+    |        100 |             15 |      -5 | minimum value (-5) is out of range (0-15)           |
+    |        100 |     2000000000 |      15 | calculated brightness value (-18634628) is out of range (15-2000000000) |
+

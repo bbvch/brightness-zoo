@@ -29,8 +29,7 @@ int main(int argc, char *argv[])
 
   sysfs::WoValue brightnessFile{configuration.device + "/brightness"};
   sysfs::RoValue maxBrightnessFile{configuration.device + "/max_brightness"};
-  SysfsDevice device{brightnessFile, maxBrightnessFile};
-  device.setMinimumValue(configuration.minimumBrightness);
+  SysfsDevice device{brightnessFile, maxBrightnessFile, [&configuration](){ return configuration.minimumBrightness; }};
 
   BrightnessControl control{configuration.powersaveBrightnessPercentage, device};
 
@@ -48,6 +47,11 @@ int main(int argc, char *argv[])
     std::cerr << "Could not register object" << std::endl;
     return -5;
   }
+
+  QObject::connect(&device, &SysfsDevice::error, [&app](QString message){
+    std::cerr << message.toStdString() << std::endl;
+    QCoreApplication::exit(-6);
+  });
 
   return app.exec();
 }

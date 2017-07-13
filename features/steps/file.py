@@ -23,7 +23,7 @@ def step_impl(context, filename):
 	writeFileContent(context, filename, "")
 
 @then(u'I expect the file "{filename}" to have the content "{content}"')
-def step_impl(context, filename, content):
+def step_file_content(context, filename, content):
 	filename = context.tmpdir + '/' + filename
 	if not os.path.isfile(filename):
 		assert False, 'file not found: ' + filename
@@ -32,6 +32,10 @@ def step_impl(context, filename, content):
 	actualContent = file.read()
 	file.close()
 	assert content == actualContent, 'expected content: "' + content + '", got: "' + actualContent + '"'
+
+@then(u'I expect the file "{filename}" to have the content ""')
+def step_impl(context, filename):
+	step_file_content(context, filename, "")
 
 @given(u'I write "{line}" to the {application} configuration file')
 def step_impl(context, line, application):
