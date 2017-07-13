@@ -11,12 +11,25 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <QSignalSpy>
+
+using namespace testing;
+
+
 class BrightnessControl_Test:
-    public testing::Test
+    public Test
 {
 public:
-  testing::NiceMock<Device_Mock> device;
-  BrightnessControl testee{25, device};
+  NiceMock<Device_Mock> device;
+  BrightnessControl testee{[this](){ return reducedPower; }, device};
+
+  qint32 reducedPower{25};
+  QSignalSpy error_spy{&testee, SIGNAL(error(QString))};
+
+  void SetUp() override
+  {
+    ASSERT_TRUE(error_spy.isValid());
+  }
 
 };
 
@@ -43,5 +56,45 @@ TEST_F(BrightnessControl_Test, set_reduced_value_when_switching_into_powersave_m
 
   EXPECT_CALL(device, setPercentage(20));
 
+  testee.setPowersave(true);
+}
+
+TEST_F(BrightnessControl_Test, an_error_is_logged_when_the_brightness_percentage_is_too_low)
+{
+
+  reducedPower = -1;
+  testee.setPowersave(true);
+
+  ASSERT_EQ(1, error_spy.count());
+  ASSERT_EQ("powersave brightness percentage (-1) is out of range (0-100)", error_spy.at(0).at(0).toString().toStdString());
+}
+
+TEST_F(BrightnessControl_Test, no_brightness_value_is_written_when_the_brightness_percentage_is_too_low)
+{
+
+  EXPECT_CALL(device, setPercentage(_))
+      .Times(0);
+
+  reducedPower = -1;
+  testee.setPowersave(true);
+}
+
+TEST_F(BrightnessControl_Test, an_error_is_logged_when_the_brightness_percentage_is_too_high)
+{
+
+  reducedPower = 101;
+  testee.setPowersave(true);
+
+  ASSERT_EQ(1, error_spy.count());
+  ASSERT_EQ("powersave brightness percentage (101) is out of range (0-100)", error_spy.at(0).at(0).toString().toStdString());
+}
+
+TEST_F(BrightnessControl_Test, no_brightness_value_is_written_when_the_brightness_percentage_is_too_high)
+{
+
+  EXPECT_CALL(device, setPercentage(_))
+      .Times(0);
+
+  reducedPower = 101;
   testee.setPowersave(true);
 }
