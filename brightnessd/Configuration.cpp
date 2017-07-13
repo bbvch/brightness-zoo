@@ -17,6 +17,7 @@ static Configuration defaultConfiguration()
   Configuration result;
 
   result.device = "";
+  result.verbose = false;
   result.bus = QDBusConnection{""};
   result.powersaveBrightnessPercentage = 50;
   result.minimumBrightness = 0;
@@ -32,6 +33,9 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
   QCommandLineOption device{"device", "the root sysfs folder of the brightness device", "path"};
   parser.addOption(device);
 
+  QCommandLineOption verbose{"verbose", "print more information"};
+  parser.addOption(verbose);
+
   DbusCommandLine dbus{-3};
   parser.addOptions(dbus.options());
 
@@ -42,6 +46,7 @@ static void parseCmdline(const QStringList &arguments, Configuration &configurat
   }
 
   configuration.device = parser.value(device);
+  configuration.verbose = parser.isSet(verbose);
   configuration.bus = dbus.parse(parser);
 }
 

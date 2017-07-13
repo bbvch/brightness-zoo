@@ -18,6 +18,7 @@ SOURCES += \
     SysfsDevice.test.cpp \
     CheckedBlock.cpp \
     ValueCheck.cpp \
+    print.cpp \
 
 HEADERS += \
     ../common/sysfs/Reader.mock.h \
@@ -29,3 +30,4 @@ HEADERS += \
     Device.mock.h \
     CheckedBlock.h \
     ValueCheck.h \
+    print.h \

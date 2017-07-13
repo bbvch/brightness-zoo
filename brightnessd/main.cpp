@@ -33,10 +33,12 @@ int main(int argc, char *argv[])
   SysfsDevice device{brightnessFile, maxBrightnessFile, [&configuration](){ return configuration.minimumBrightness; }};
 
   BrightnessControl control{[&configuration](){ return configuration.powersaveBrightnessPercentage; }, device};
-  ProblemHandler problemHandler{};
+  ProblemHandler problemHandler{configuration.verbose};
 
   QObject::connect(&device, SIGNAL(error(QString)), &problemHandler, SLOT(error(QString)));
+  QObject::connect(&device, SIGNAL(info(QString)), &problemHandler, SLOT(info(QString)));
   QObject::connect(&control, SIGNAL(error(QString)), &problemHandler, SLOT(error(QString)));
+  QObject::connect(&control, SIGNAL(info(QString)), &problemHandler, SLOT(info(QString)));
 
   new dbus::brightness::Power(control, &app);
   new dbus::brightness::PowerSave(control, &app);
@@ -48,7 +50,7 @@ int main(int argc, char *argv[])
       return -4;
   }
 
-  if(!bus.registerObject(DbusNames::brightnessPath(), &app)){
+  if (!bus.registerObject(DbusNames::brightnessPath(), &app)){
     std::cerr << "Could not register object" << std::endl;
     return -5;
   }

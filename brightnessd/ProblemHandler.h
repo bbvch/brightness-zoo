@@ -13,9 +13,15 @@
 class ProblemHandler : public QObject
 {
   Q_OBJECT
+
 public:
+  ProblemHandler(bool verbose);
 
 public slots:
   void error(QString message);
+  void info(QString message);
+
+private:
+  bool verbose;
 
 };

@@ -48,3 +48,21 @@ Scenario Outline: Behave sanely when an invalid situation is detected
     |      -1 | powersave brightness percentage (-1) is out of range (0-100)      |
     | -100000 | powersave brightness percentage (-100000) is out of range (0-100) |
 
+
+Scenario Outline: print information to standard output in verbose mode when changing brightness or powersave
+  Given I have a directory "/test"
+  And I have a file "/test/max_brightness" with the content "100"
+  And I have a file "/test/brightness" with the content ""
+  And I start brightnessd with the device "/test" and argument "--verbose"
+
+  When I set the D-Bus property "on" to true of the interface "ch.bbv.brightness.powersave" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
+  And I set the D-Bus property "percentage" to <brightness> of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
+  And I stop brightnessd
+
+  Then I expect the string "set brightness percentage (<percentage>) based on brightness (<brightness>), powersave brightness percentage (<reduced>) and powersave (<powersave>)" on stdout from brightnessd
+
+  Examples:
+    | brightness | reduced | powersave | percentage |
+    |         80 |      50 |        on |         40 |
+
+

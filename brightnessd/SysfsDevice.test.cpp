@@ -27,10 +27,12 @@ public:
 
   qint32 minimum{};
   QSignalSpy error_spy{&testee, SIGNAL(error(QString))};
+  QSignalSpy info_spy{&testee, SIGNAL(info(QString))};
 
   void SetUp() override
   {
     ASSERT_TRUE(error_spy.isValid());
+    ASSERT_TRUE(info_spy.isValid());
   }
 };
 
@@ -55,6 +57,18 @@ TEST_F(SysfsDevice_Test, setting_a_new_value_writes_it_to_the_file)
   EXPECT_CALL(brightness, write(_));
 
   testee.setPercentage({});
+}
+
+TEST_F(SysfsDevice_Test, an_info_is_written_when_setting_a_new_value)
+{
+  ON_CALL(maxBrightness, read())
+      .WillByDefault(Return(QString{"55"}));
+  minimum = 10;
+
+  testee.setPercentage(60);
+
+  ASSERT_EQ(1, info_spy.count());
+  ASSERT_EQ("set brightness value (37) based on percentage (60), minimum brightness (10) and maximum brightness (55)", info_spy.at(0).at(0).toString().toStdString());
 }
 
 TEST_F(SysfsDevice_Test, the_percentage_value_is_scaled_according_to_the_max_value_when_written)

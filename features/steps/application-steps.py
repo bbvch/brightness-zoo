@@ -21,6 +21,13 @@ def waitForDbusService():
 		time.sleep(0.01)
 
 
+@given(u'I start brightnessd with the device "{device}" and argument "{arg1}"')
+def step_impl(context, device, arg1):
+	device = context.tmpdir + '/' + device
+	context.brightnessd = startApplication(context, ['brightnessd', '--session', '--device=' + device, arg1])
+	waitForDbusService()
+
+
 @given(u'I start brightnessd with the device "{device}"')
 def step_impl(context, device):
 	device = context.tmpdir + '/' + device
@@ -33,13 +40,22 @@ def step_impl(context):
 	context.brightnessd = startApplication(context, ['python', 'steps/dummy-brightnessd.py'])
 	waitForDbusService()
 
+
+@when(u'I stop brightnessd')
+def step_impl(context):
+	context.brightnessd.terminate()
+	context.brightnessd.wait()
+	context.brightnessd_stdout = context.brightnessd.stdout.read()
+	context.brightnessd_stderr = context.brightnessd.stderr.read()
+
+
 @when(u'I run ambientlightd with the device "{device}" and argument "{arg1}"')
 def step_impl(context, device, arg1):
 	device = context.tmpdir + '/' + device
 	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', '--single', '--device=' + device, arg1])
+	context.ambientlightd.wait()
 	context.stdout = context.ambientlightd.stdout.read()
 	context.stderr = context.ambientlightd.stderr.read()
-	context.ambientlightd.wait()
 
 @when(u'I run ambientlightd with the device "{device}"')
 def step_impl(context, device):
@@ -68,6 +84,18 @@ def step_impl(context, text):
 def step_impl(context, text):
 	output = context.brightnessd_stderr
 	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+
+@then(u'I expect the string "{text}" on stdout from brightnessd')
+def step_impl(context, text):
+	output = context.brightnessd_stdout
+	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+
+
+@then(u'I expect not output on stdout from brightnessd')
+def step_impl(context):
+	output = context.brightnessd_stdout
+	assert output == "", 'expected not putput, got: \n' + output
+
 
 @then(u'brightnessd exits with the error code -6')
 def step_impl(context):

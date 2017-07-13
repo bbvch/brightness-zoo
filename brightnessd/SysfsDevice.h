@@ -25,6 +25,7 @@ public:
 
 signals:
   void error(QString);
+  void info(QString);
 
 public slots:
   void setPercentage(qint32);

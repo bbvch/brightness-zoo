@@ -31,6 +31,7 @@ public:
   bool getPowersave() const override;
 
 signals:
+  void info(QString message);
   void error(QString message);
 
 private:

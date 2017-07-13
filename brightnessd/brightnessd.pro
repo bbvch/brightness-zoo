@@ -29,6 +29,7 @@ SOURCES += main.cpp \
     CheckedBlock.cpp \
     ValueCheck.cpp \
     ProblemHandler.cpp \
+    print.cpp \
 
 HEADERS += \
     Device.h \
@@ -48,3 +49,4 @@ HEADERS += \
     CheckedBlock.h \
     ValueCheck.h \
     ProblemHandler.h \
+    print.h \

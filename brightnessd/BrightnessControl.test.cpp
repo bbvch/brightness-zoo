@@ -25,10 +25,12 @@ public:
 
   qint32 reducedPower{25};
   QSignalSpy error_spy{&testee, SIGNAL(error(QString))};
+  QSignalSpy info_spy{&testee, SIGNAL(info(QString))};
 
   void SetUp() override
   {
     ASSERT_TRUE(error_spy.isValid());
+    ASSERT_TRUE(info_spy.isValid());
   }
 
 };
@@ -57,6 +59,30 @@ TEST_F(BrightnessControl_Test, set_reduced_value_when_switching_into_powersave_m
   EXPECT_CALL(device, setPercentage(20));
 
   testee.setPowersave(true);
+}
+
+TEST_F(BrightnessControl_Test, write_info_when_powersave_is_changed)
+{
+  reducedPower = 50;
+  testee.setBrightness(80);
+  info_spy.clear();
+
+  testee.setPowersave(true);
+
+  ASSERT_EQ(1, info_spy.count());
+  ASSERT_EQ("set brightness percentage (40) based on brightness (80), powersave brightness percentage (50) and powersave (on)", info_spy.at(0).at(0).toString().toStdString());
+}
+
+TEST_F(BrightnessControl_Test, write_info_when_brightness_is_changed)
+{
+  reducedPower = 75;
+  testee.setPowersave(false);
+  info_spy.clear();
+
+  testee.setBrightness(60);
+
+  ASSERT_EQ(1, info_spy.count());
+  ASSERT_EQ("set brightness percentage (60) based on brightness (60), powersave brightness percentage (75) and powersave (off)", info_spy.at(0).at(0).toString().toStdString());
 }
 
 TEST_F(BrightnessControl_Test, an_error_is_logged_when_the_brightness_percentage_is_too_low)

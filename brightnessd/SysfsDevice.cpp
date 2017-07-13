@@ -9,6 +9,7 @@
 
 #include "CheckedBlock.h"
 #include "ValueCheck.h"
+#include "print.h"
 
 
 SysfsDevice::SysfsDevice(sysfs::Writer &_brightness, sysfs::Reader &_maxBrightness, std::function<qint32()> _minimum) :
@@ -43,6 +44,12 @@ void SysfsDevice::setPercentage(qint32 percentage)
     context.value = by_percent + context.minimum;
     return inRange(context.minimum, context.value, context.maximum, "calculated brightness value");
   }).then([this, &context](){
+    info(setText(
+           {"brightness value", toString(context.value)},
+           {"percentage", toString(context.percentage)},
+           {"minimum brightness", toString(context.minimum)},
+           {"maximum brightness", toString(context.maximum)}));
+
     brightness.write(QString::number(context.value));
     return Ok();
   }).thenOnError([this](const std::string &message){

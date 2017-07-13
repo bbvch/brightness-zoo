@@ -25,6 +25,40 @@ Scenario Outline: Set the brightness to a specific value
     |         42 |             15 |          6 | /sys/test/backlight |
     |         45 |             10 |          5 | /sys/test/backlight |
 
+
+Scenario Outline: print information to standard output in verbose mode when changing percentage
+  Given I have a directory "/test"
+  And I write "minimumBrightness=<minimum>" to the brightnessd configuration file
+  And I have a file "/test/max_brightness" with the content "<max brightness>"
+  And I have a file "/test/brightness" with the content ""
+  And I start brightnessd with the device "/test" and argument "--verbose"
+
+  When I set the D-Bus property "percentage" to <percentage> of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
+  And I stop brightnessd
+
+  Then I expect the string "set brightness value (<brightness>) based on percentage (<percentage>), minimum brightness (<minimum>) and maximum brightness (<max brightness>)" on stdout from brightnessd
+
+  Examples:
+    | percentage | max brightness | minimum | brightness |
+    |         10 |            100 |       0 |         10 |
+    |         42 |            100 |      15 |         51 |
+    |         50 |             15 |       9 |         12 |
+    |         90 |             10 |       4 |          9 |
+
+
+Scenario: does not print information to standard output when not in verbose mode
+  Given I have a directory "/test"
+  And I write "minimumBrightness=<minimum>" to the brightnessd configuration file
+  And I have a file "/test/max_brightness" with the content "<max brightness>"
+  And I have a file "/test/brightness" with the content ""
+  And I start brightnessd with the device "/test"
+
+  When I set the D-Bus property "percentage" to 50 of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
+  And I stop brightnessd
+
+  Then I expect not output on stdout from brightnessd
+
+
 Scenario Outline: Set a minimal brightness
   Given I write "minimumBrightness=<minimum>" to the brightnessd configuration file
   And I have a directory "test"

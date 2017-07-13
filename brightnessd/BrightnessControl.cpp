@@ -9,6 +9,7 @@
 
 #include "CheckedBlock.h"
 #include "ValueCheck.h"
+#include "print.h"
 
 BrightnessControl::BrightnessControl(std::function<qint32()> _reducedPower, Device &_device) :
   reducedPower{_reducedPower},
@@ -49,6 +50,12 @@ void BrightnessControl::updateCalculated()
     if (powersave) {
       finalBrightness = finalBrightness * reduced / 100;
     }
+
+    info(setText(
+           {"brightness percentage", toString(finalBrightness)},
+           {"brightness", toString(brightness)},
+           {"powersave brightness percentage", toString(reduced)},
+           {"powersave", toString(powersave)}));
     device.setPercentage(finalBrightness);
 
     return Ok();
