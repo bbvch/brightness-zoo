@@ -3,22 +3,18 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
+include(../settings.pri)
+
 QT += core
 QT -= gui
 QT += dbus
 
-CONFIG += c++11
 CONFIG += console
 CONFIG -= app_bundle
 
 TARGET = ambientlightd
 
-INSTALLS += target
-target.path = /usr/bin
-
 TEMPLATE = app
-
-INCLUDEPATH += ../common/
 
 SOURCES += main.cpp \
     AmbientLightD.cpp \
@@ -29,7 +25,7 @@ SOURCES += main.cpp \
     ../common/ConfigurationReader.cpp \
     Configuration.cpp \
     ../common/DbusCommandLine.cpp \
-    sensor/IioSensor.cpp
+    sensor/IioSensor.cpp \
 
 HEADERS += \
     AmbientLightD.h \
@@ -46,4 +42,4 @@ HEADERS += \
     ../common/DbusCommandLine.h \
     sensor/AmbientLightSensor.h \
     sensor/AmbientLightSensor.mock.h \
-    sensor/IioSensor.h
+    sensor/IioSensor.h \
