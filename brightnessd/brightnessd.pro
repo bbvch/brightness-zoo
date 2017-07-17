@@ -3,22 +3,18 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
+include(../settings.pri)
+
 QT += core
 QT -= gui
 QT += dbus
 
-CONFIG += c++11
 CONFIG += console
 CONFIG -= app_bundle
 
 TARGET = brightnessd
 
-INSTALLS += target
-target.path = /usr/bin
-
 TEMPLATE = app
-
-INCLUDEPATH += ../common/
 
 SOURCES += main.cpp \
     ../common/sysfs/RoValue.cpp \
@@ -29,7 +25,11 @@ SOURCES += main.cpp \
     ../common/DbusNames.cpp \
     ../common/ConfigurationReader.cpp \
     ../common/DbusCommandLine.cpp \
-    Configuration.cpp
+    Configuration.cpp \
+    CheckedBlock.cpp \
+    ValueCheck.cpp \
+    ProblemHandler.cpp \
+    print.cpp \
 
 HEADERS += \
     Device.h \
@@ -45,4 +45,8 @@ HEADERS += \
     ../common/DbusNames.h \
     ../common/ConfigurationReader.h \
     ../common/DbusCommandLine.h \
-    Configuration.h
+    Configuration.h \
+    CheckedBlock.h \
+    ValueCheck.h \
+    ProblemHandler.h \
+    print.h \

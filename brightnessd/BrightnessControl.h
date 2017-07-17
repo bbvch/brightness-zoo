@@ -5,21 +5,24 @@
  * SPDX-License-Identifier:	GPL-3.0+
  */
 
-#ifndef BRIGHTNESSCONTROL_H
-#define BRIGHTNESSCONTROL_H
+#pragma once
 
 #include "Brightness.h"
 #include "Powersave.h"
 #include "Device.h"
 
-#include <QtGlobal>
+#include <QObject>
+#include <functional>
 
 class BrightnessControl :
+    public QObject,
     public Brightness,
     public Powersave
 {
+  Q_OBJECT
+
 public:
-  BrightnessControl(uint reducedPower, Device &device);
+  BrightnessControl(std::function<qint32()> reducedPower, Device &device);
 
   void setBrightness(qint32) override;
   qint32 getBrightness() const override;
@@ -27,8 +30,12 @@ public:
   void setPowersave(bool) override;
   bool getPowersave() const override;
 
+signals:
+  void info(QString message);
+  void error(QString message);
+
 private:
-  const uint reducedPower;
+  std::function<qint32()> reducedPower;
   qint32 brightness{100};
   bool powersave{false};
   Device &device;
@@ -36,5 +43,3 @@ private:
   void updateCalculated();
 
 };
-
-#endif

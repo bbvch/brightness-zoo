@@ -22,7 +22,7 @@ public:
 
   ConfigurationReader(Reader reader);
 
-  unsigned read(QString key, unsigned defaultValue) const;
+  qint32 read(QString key, qint32 defaultValue) const;
   std::chrono::seconds read(QString key, std::chrono::seconds defaultValue) const;
 
 private:

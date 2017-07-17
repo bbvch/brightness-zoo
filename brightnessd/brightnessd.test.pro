@@ -3,27 +3,22 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
+include(../test.pri)
+
 TEMPLATE = app
 CONFIG += console
-CONFIG += c++11
 CONFIG -= app_bundle
 
-QT += testlib
-
 TARGET = brightnessd.test
-
-INSTALLS += target
-target.path = /usr/bin
-
-LIBS += -lgtest -lgmock -lgtest_main
-
-INCLUDEPATH += ../common/
 
 SOURCES += \
     BrightnessControl.test.cpp \
     BrightnessControl.cpp \
     SysfsDevice.cpp \
-    SysfsDevice.test.cpp
+    SysfsDevice.test.cpp \
+    CheckedBlock.cpp \
+    ValueCheck.cpp \
+    print.cpp \
 
 HEADERS += \
     ../common/sysfs/Reader.mock.h \
@@ -32,4 +27,7 @@ HEADERS += \
     ../common/sysfs/Writer.h \
     BrightnessControl.h \
     SysfsDevice.h \
-    Device.mock.h
+    Device.mock.h \
+    CheckedBlock.h \
+    ValueCheck.h \
+    print.h \

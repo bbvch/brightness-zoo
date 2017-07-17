@@ -13,6 +13,7 @@
 #include <sysfs/Reader.h>
 
 #include <QObject>
+#include <functional>
 
 class SysfsDevice :
     public QObject,
@@ -20,22 +21,19 @@ class SysfsDevice :
 {
   Q_OBJECT
 public:
-  SysfsDevice(sysfs::Writer &brightness, sysfs::Reader &maxBrightness);
-
-  void setMinimumValue(uint);
+  SysfsDevice(sysfs::Writer &brightness, sysfs::Reader &maxBrightness, std::function<qint32()> minimum);
 
 signals:
+  void error(QString);
+  void info(QString);
 
 public slots:
-  void setPercentage(qint32 percentage);
+  void setPercentage(qint32);
 
 private:
   sysfs::Writer &brightness;
   sysfs::Reader &maxBrightness;
-  uint minimum{0};
-
-  uint calcValue(uint max, qint32 percentage) const;
-
+  std::function<qint32()> minimum;
 
 };
 

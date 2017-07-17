@@ -3,22 +3,18 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
+include(../settings.pri)
+
 QT += core
 QT -= gui
 QT += dbus
 
-CONFIG += c++11
 CONFIG += console
 CONFIG -= app_bundle
 
 TARGET = ambientlightd
 
-INSTALLS += target
-target.path = /usr/bin
-
 TEMPLATE = app
-
-INCLUDEPATH += ../common/
 
 LIBS += -lcgos
 

@@ -4,24 +4,20 @@
 # SPDX-License-Identifier:	GPL-3.0+
 # SPDX-License-Identifier:	GPL-2.0
 
+include(../settings.pri)
+
 QT += core
 QT -= gui
 QT += dbus
 
-CONFIG += c++11
 CONFIG += console
 CONFIG -= app_bundle
 
 TARGET = xactivityd
 
-INSTALLS += target
-target.path = /usr/bin
-
 TEMPLATE = app
 
 LIBS += -lX11 -lXss -lXext
-
-INCLUDEPATH += ../common/
 
 SOURCES += main.cpp \
     Xidle.cpp \
@@ -31,7 +27,7 @@ SOURCES += main.cpp \
     ../common/ConfigurationReader.cpp \
     ../common/DbusNames.cpp \
     ../common/DbusCommandLine.cpp \
-    Configuration.cpp
+    Configuration.cpp \
 
 HEADERS += \
     idletime.h \
@@ -41,4 +37,4 @@ HEADERS += \
     ../common/ConfigurationReader.h \
     ../common/DbusNames.h \
     ../common/DbusCommandLine.h \
-    Configuration.h
+    Configuration.h \

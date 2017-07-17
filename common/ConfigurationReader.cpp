@@ -17,10 +17,11 @@ ConfigurationReader::ConfigurationReader(ConfigurationReader::Reader _reader) :
 {
 }
 
-unsigned ConfigurationReader::read(QString key, unsigned defaultValue) const
+qint32 ConfigurationReader::read(QString key, qint32 defaultValue) const
 {
+  //TODO check for nearly correct value
   bool ok;
-  unsigned value = reader(key, defaultValue).toUInt(&ok);
+  qint32 value = reader(key, defaultValue).toInt(&ok);
   if (!ok) {
     value = defaultValue;
   }

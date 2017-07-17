@@ -3,21 +3,13 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
+include(../test.pri)
+
 TEMPLATE = app
 CONFIG += console
-CONFIG += c++11
 CONFIG -= app_bundle
 
-QT += testlib
-
 TARGET = ambientlightd.test
-
-INSTALLS += target
-target.path = /usr/bin
-
-LIBS += -lgtest -lgmock -lgtest_main
-
-INCLUDEPATH += ../common/
 
 SOURCES += \
     AmbientLightD.cpp \

@@ -1,8 +1,7 @@
-FROM ubuntu:xenial
+FROM debian:stretch
 
-RUN apt-get update
-
-RUN apt-get -y install --fix-missing \
+RUN apt-get update; \
+	apt-get -y install --fix-missing \
 	cmake \
 	dbus-x11 \
 	git \
