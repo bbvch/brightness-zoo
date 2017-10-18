@@ -12,7 +12,7 @@ def startApplication(context, arguments):
 	environment = dict(os.environ)
 	environment["XDG_CONFIG_HOME"] = context.tmpdir
 
-	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1)
+	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1, cwd=context.tmpdir)
 
 
 def waitForDbusService():
@@ -37,7 +37,8 @@ def step_impl(context, device):
 
 @given(u'I start dummy-brightnessd')
 def step_impl(context):
-	context.brightnessd = startApplication(context, ['python', 'steps/dummy-brightnessd.py'])
+	path = os.path.dirname(os.path.realpath(__file__))
+	context.brightnessd = startApplication(context, ['python', path + '/dummy-brightnessd.py'])
 	waitForDbusService()
 
 
