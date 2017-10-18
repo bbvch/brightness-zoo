@@ -91,7 +91,7 @@ def step_impl(context, text):
 	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 
 
-@then(u'I expect not output on stdout from brightnessd')
+@then(u'I expect no output on stdout from brightnessd')
 def step_impl(context):
 	output = context.brightnessd_stdout
 	assert output == "", 'expected not putput, got: \n' + output
