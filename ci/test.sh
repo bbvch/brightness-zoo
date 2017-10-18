@@ -17,6 +17,7 @@ fi
 # set paths
 export PATH=`pwd`/ambientlightd:${PATH}
 export PATH=`pwd`/brightnessd:${PATH}
+export PATH=`pwd`/checkbrightness:${PATH}
 cd features
 
 # acceptance tests
