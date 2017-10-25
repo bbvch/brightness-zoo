@@ -56,7 +56,7 @@ Scenario: does not print information to standard output when not in verbose mode
   When I set the D-Bus property "percentage" to 50 of the interface "ch.bbv.brightness.power" with the path "/ch/bbv/brightness" of the service "ch.bbv.brightnessd"
   And I stop brightnessd
 
-  Then I expect not output on stdout from brightnessd
+  Then I expect no output on stdout from brightnessd
 
 
 Scenario Outline: Set a minimal brightness

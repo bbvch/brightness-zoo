@@ -12,7 +12,7 @@ def startApplication(context, arguments):
 	environment = dict(os.environ)
 	environment["XDG_CONFIG_HOME"] = context.tmpdir
 
-	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1)
+	return subprocess.Popen(arguments, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=-1, cwd=context.tmpdir)
 
 
 def waitForDbusService():
@@ -35,9 +35,17 @@ def step_impl(context, device):
 	waitForDbusService()
 
 
+@when(u'I run checkbrightness with the device "{device}" and argument "{arg1}"')
+def step_impl(context, device, arg1):
+	device = context.tmpdir + '/' + device
+	context.checkbrightness = startApplication(context, ['checkbrightness', '--device=' + device, arg1])
+	context.checkbrightness.wait()
+
+
 @given(u'I start dummy-brightnessd')
 def step_impl(context):
-	context.brightnessd = startApplication(context, ['python', 'steps/dummy-brightnessd.py'])
+	path = os.path.dirname(os.path.realpath(__file__))
+	context.brightnessd = startApplication(context, ['python', path + '/dummy-brightnessd.py'])
 	waitForDbusService()
 
 
@@ -91,7 +99,7 @@ def step_impl(context, text):
 	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 
 
-@then(u'I expect not output on stdout from brightnessd')
+@then(u'I expect no output on stdout from brightnessd')
 def step_impl(context):
 	output = context.brightnessd_stdout
 	assert output == "", 'expected not putput, got: \n' + output
@@ -104,4 +112,33 @@ def step_impl(context):
 	code = context.brightnessd.returncode
 	assert code == 256-6, 'expected to see "' + str(-6) + '", got: ' + str(code)
 
+
+@then(u'checkbrightness exits with the error code {expected:d}')
+def step_impl(context, expected):
+	code = context.checkbrightness.returncode
+	assert code == expected, 'expected to see "' + str(expected) + '", got: ' + str(code)
+
+
+@then(u'I expect no output on stdout from checkbrightness')
+def step_impl(context):
+	output = context.checkbrightness.stdout.read()
+	assert output == "", 'expected not putput, got: \n' + output
+
+
+@then(u'I expect no output on stderr from checkbrightness')
+def step_impl(context):
+	output = context.checkbrightness.stderr.read()
+	assert output == "", 'expected not putput, got: \n' + output
+
+
+@then(u'I expect the string "{text}" on stdout from checkbrightness')
+def step_impl(context, text):
+	output = context.checkbrightness.stdout.read()
+	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
+
+
+@then(u'I expect the string "{text}" on stderr from checkbrightness')
+def step_impl(context, text):
+	output = context.checkbrightness.stderr.read()
+	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 

@@ -13,3 +13,4 @@ SUBDIRS = \
     common/common.test.pro \
     xactivityd/xactivityd.pro \
     xactivityd/xactivityd.test.pro \
+    checkbrightness/checkbrightness.pro \
