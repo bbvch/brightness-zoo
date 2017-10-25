@@ -10,6 +10,7 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 #include <QProcess>
+#include <QThread>
 #include <iostream>
 
 struct Configuration
@@ -40,7 +41,14 @@ int main(int argc, char *argv[])
 
   const auto brightness = readBrightness(configuration.device);
 
-  const auto ok = verifyAndAction(brightness, configuration.command);
+  if (brightness.actual == brightness.expected) {
+    return 0;
+  }
+
+  QThread::msleep(100);
+
+  const auto brightnessVerification = readBrightness(configuration.device);
+  const auto ok = verifyAndAction(brightnessVerification, configuration.command);
 
   return ok ? 0 : 1;
 }
