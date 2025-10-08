@@ -2,6 +2,9 @@
 
 set -e
 
+# Change to build directory
+cd build
+
 # unit tests
 ambientlightd/ambientlightd.test
 brightnessd/brightnessd.test
@@ -18,7 +21,9 @@ fi
 export PATH=`pwd`/ambientlightd:${PATH}
 export PATH=`pwd`/brightnessd:${PATH}
 export PATH=`pwd`/checkbrightness:${PATH}
-cd features
+
+# Go to features directory (relative to project root)
+cd ../features
 
 # acceptance tests
 behave
