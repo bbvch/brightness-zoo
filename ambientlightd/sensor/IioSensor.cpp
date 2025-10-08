@@ -15,5 +15,5 @@ IioSensor::IioSensor(QString device) :
 
 int IioSensor::read() const
 {
-  return sensor.read().toInt();
+  return qRound(sensor.read().toDouble());
 }
