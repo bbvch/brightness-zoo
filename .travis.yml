@@ -9,6 +9,6 @@ before_install:
   - docker build -t brightness-zoo ci/
 
 script:
-  - docker run -v `pwd`:/home/root/brightness-zoo brightness-zoo bash -c "cd home/root/brightness-zoo/; ci/build.sh"
-  - docker run -v `pwd`:/home/root/brightness-zoo brightness-zoo bash -c "cd home/root/brightness-zoo/; ci/test.sh"
+  - docker run -v `pwd`:/home/root/brightness-zoo brightness-zoo bash -c "cd /home/root/brightness-zoo/; ci/build.sh"
+  - docker run -v `pwd`:/home/root/brightness-zoo brightness-zoo bash -c "cd /home/root/brightness-zoo/; ci/test.sh"
 
