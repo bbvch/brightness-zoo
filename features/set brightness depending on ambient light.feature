@@ -18,13 +18,17 @@ Scenario Outline: Set the brightness depending on the ambient light
   Then I expect the property "percentage" of brightnessd to be <brightness>
 
   Examples:
-    | ambient | brightness |
-    |   25000 |        100 |
-    |       1 |         10 |
-    |  100000 |        100 |
-    |   10000 |         46 |
-    |    1000 |         14 |
-    |       0 |         10 |
+    |   ambient | brightness |
+    |     25000 |        100 |
+    |         1 |         10 |
+    |    100000 |        100 |
+    |     10000 |         46 |
+    |      1000 |         14 |
+    |         0 |         10 |
+    |  4.430000 |         10 |
+    |  0.190000 |         10 |
+    |100.240000 |         10 |
+    |552.320000 |         12 |
 
 Scenario Outline: Use the conversion parameter from the configuration file
   Given I write "minAmbient=<min ambient>" to the ambientlightd configuration file
@@ -46,6 +50,9 @@ Scenario Outline: Use the conversion parameter from the configuration file
     |          10 |       10010 |             20 |             80 |    5010 |         50 |
     |          10 |       10010 |             20 |             80 |   20000 |         80 |
     |           1 |       25000 |             90 |             10 |   10000 |         58 |
+    |           1 |         500 |              2 |              8 |     500 |          8 |
+    |           1 |         500 |              2 |              8 |     250 |          5 |
+    |           1 |         500 |              2 |              8 | 0.99999 |          2 |
 
 Scenario: ambientlightd prints an error when the ambient light sensor is not available
   Given I start dummy-brightnessd
