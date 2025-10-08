@@ -1,28 +1,32 @@
-FROM debian:9.2
+FROM debian:11-slim
 
-RUN \
-	rm -rf /var/lib/apt/lists; \
-	echo "deb ftp://ftp.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list; \
-	apt-get update; \
-	apt-get upgrade -y; \
-	apt-get autoremove -y; \
-	apt-get clean
+ENV DEBIAN_FRONTEND=noninteractive
+ENV CXXFLAGS="-std=c++17"
+ENV CMAKE_CXX_STANDARD=17
 
-RUN apt-get update; \
-	apt-get -y install --fix-missing \
-	cmake \
-	dbus-x11 \
-	git \
-	libxss-dev \
-	python-dbus \
-	python-gobject \
-	python-pip \
-	qt5-default \
-	qtbase5-dev \
-	x11proto-scrnsaver-dev
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    dbus-x11 \
+    git \
+    libxss-dev \
+    python3-dbus \
+    python3-gi \
+    python3-pip \
+    qtbase5-dev \
+    qtbase5-dev-tools \
+    libxss1 \
+    curl \
+    wget \
+    ca-certificates \
+    libgtest-dev \
+    libgmock-dev \
+    pkg-config \
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install behave
+RUN pip3 install --no-cache-dir behave
 
-COPY gmock-install.sh /home/root/
-RUN /home/root/gmock-install.sh
-
+WORKDIR /workspaces
