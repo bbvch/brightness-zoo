@@ -8,13 +8,13 @@
 import dbus
 import dbus.service
 import dbus.mainloop.glib
-import gobject
+from gi.repository import GLib
 import glib
 
 class DummyBrightnessd(dbus.service.Object):
     def __init__(self):
         self.session_bus = dbus.SessionBus()
-	self.percentage = -1
+        self.percentage = -1
         name = dbus.service.BusName("ch.bbv.brightness", bus=self.session_bus)
         dbus.service.Object.__init__(self, name, '/ch/bbv/brightness')
 
@@ -30,15 +30,15 @@ class DummyBrightnessd(dbus.service.Object):
 
     @dbus.service.method(dbus.PROPERTIES_IFACE, in_signature='s', out_signature='a{sv}')
     def GetAll(self, interface_name):
-	if interface_name == 'ch.bbv.brightness.power':
-	        return { 'percentage': dbus.Int32(self.percentage) }
-	else:
-		raise dbus.exceptions.DBusException('Unknown interface: ' + interface_name)
+        if interface_name == 'ch.bbv.brightness.power':
+            return {'percentage': dbus.Int32(self.percentage)}
+        else:
+            raise dbus.exceptions.DBusException('Unknown interface: ' + interface_name)
 
 
 if __name__ == '__main__':
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-    loop = gobject.MainLoop()
+    loop = GLib.MainLoop()
     dummyBrightnessd = DummyBrightnessd()
     loop.run()
 

@@ -7,4 +7,4 @@ include(settings.pri)
 
 QT += testlib
 
-LIBS += -lgmock -lgtest_main
+LIBS += -lgtest -lgtest_main -lgmock -lgmock_main -lpthread

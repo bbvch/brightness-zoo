@@ -54,23 +54,23 @@ TEST_F(ConfigurationReader_Test, forward_default_value_as_unsigned_to_reader)
 TEST_F(ConfigurationReader_Test, read_stored_seconds)
 {
   read = "0:01";
-  ASSERT_EQ(std::chrono::seconds{1}, testee.read("", std::chrono::seconds{0}));
+  ASSERT_EQ(std::chrono::seconds{1}.count(), testee.read("", std::chrono::seconds{0}).count());
 
   read = "0:12";
-  ASSERT_EQ(std::chrono::seconds{12}, testee.read("", std::chrono::seconds{0}));
+  ASSERT_EQ(std::chrono::seconds{12}.count(), testee.read("", std::chrono::seconds{0}).count());
 
   read = "1:23";
-  ASSERT_EQ(std::chrono::seconds{83}, testee.read("", std::chrono::seconds{0}));
+  ASSERT_EQ(std::chrono::seconds{83}.count(), testee.read("", std::chrono::seconds{0}).count());
 
   read = "12:34";
-  ASSERT_EQ(std::chrono::seconds{754}, testee.read("", std::chrono::seconds{0}));
+  ASSERT_EQ(std::chrono::seconds{754}.count(), testee.read("", std::chrono::seconds{0}).count());
 }
 
 TEST_F(ConfigurationReader_Test, return_the_default_value_when_the_read_value_can_not_be_converted_to_a_time)
 {
   read = "nix";
 
-  ASSERT_EQ(std::chrono::seconds{42}, testee.read("", std::chrono::seconds{42}));
+  ASSERT_EQ(std::chrono::seconds{42}.count(), testee.read("", std::chrono::seconds{42}.count()));
 }
 
 TEST_F(ConfigurationReader_Test, forward_default_value_as_time_to_reader)

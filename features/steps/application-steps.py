@@ -17,7 +17,7 @@ def startApplication(context, arguments):
 
 def waitForDbusService():
 	bus = dbus.SessionBus()
-	while not (dbus.UTF8String('ch.bbv.brightness') in bus.list_names()):
+	while not ('ch.bbv.brightness' in bus.list_names()):
 		time.sleep(0.01)
 
 
@@ -45,7 +45,7 @@ def step_impl(context, device, arg1):
 @given(u'I start dummy-brightnessd')
 def step_impl(context):
 	path = os.path.dirname(os.path.realpath(__file__))
-	context.brightnessd = startApplication(context, ['python', path + '/dummy-brightnessd.py'])
+	context.brightnessd = startApplication(context, ['python3', path + '/dummy-brightnessd.py'])
 	waitForDbusService()
 
 
@@ -53,8 +53,8 @@ def step_impl(context):
 def step_impl(context):
 	context.brightnessd.terminate()
 	context.brightnessd.wait()
-	context.brightnessd_stdout = context.brightnessd.stdout.read()
-	context.brightnessd_stderr = context.brightnessd.stderr.read()
+	context.brightnessd_stdout = context.brightnessd.stdout.read().decode('utf-8')
+	context.brightnessd_stderr = context.brightnessd.stderr.read().decode('utf-8')
 
 
 @when(u'I run ambientlightd with the device "{device}" and argument "{arg1}"')
@@ -62,23 +62,23 @@ def step_impl(context, device, arg1):
 	device = context.tmpdir + '/' + device
 	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', '--single', '--device=' + device, arg1])
 	context.ambientlightd.wait()
-	context.stdout = context.ambientlightd.stdout.read()
-	context.stderr = context.ambientlightd.stderr.read()
+	context.stdout = context.ambientlightd.stdout.read().decode('utf-8')
+	context.stderr = context.ambientlightd.stderr.read().decode('utf-8')
 
 @when(u'I run ambientlightd with the device "{device}"')
 def step_impl(context, device):
 	device = context.tmpdir + '/' + device
 	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', '--single', '--device=' + device])
 	context.ambientlightd.wait()
-	context.stdout = context.ambientlightd.stdout.read()
-	context.stderr = context.ambientlightd.stderr.read()
+	context.stdout = context.ambientlightd.stdout.read().decode('utf-8')
+	context.stderr = context.ambientlightd.stderr.read().decode('utf-8')
 
 @when(u'I run ambientlightd with the argument "{arg1}"')
 def step_impl(context, arg1):
 	context.ambientlightd = startApplication(context, ['ambientlightd', '--session', arg1])
 	context.ambientlightd.wait()
-	context.stdout = context.ambientlightd.stdout.read()
-	context.stderr = context.ambientlightd.stderr.read()
+	context.stdout = context.ambientlightd.stdout.read().decode('utf-8')
+	context.stderr = context.ambientlightd.stderr.read().decode('utf-8')
 
 @then(u'I expect the string "{text}" on stderr from ambientlightd')
 def step_impl(context, text):
@@ -108,7 +108,7 @@ def step_impl(context):
 @then(u'brightnessd exits with the error code -6')
 def step_impl(context):
 	context.brightnessd.wait()
-	context.brightnessd_stderr = context.brightnessd.stderr.read()
+	context.brightnessd_stderr = context.brightnessd.stderr.read().decode('utf-8')
 	code = context.brightnessd.returncode
 	assert code == 256-6, 'expected to see "' + str(-6) + '", got: ' + str(code)
 
@@ -121,24 +121,24 @@ def step_impl(context, expected):
 
 @then(u'I expect no output on stdout from checkbrightness')
 def step_impl(context):
-	output = context.checkbrightness.stdout.read()
+	output = context.checkbrightness.stdout.read().decode('utf-8')
 	assert output == "", 'expected not putput, got: \n' + output
 
 
 @then(u'I expect no output on stderr from checkbrightness')
 def step_impl(context):
-	output = context.checkbrightness.stderr.read()
+	output = context.checkbrightness.stderr.read().decode('utf-8')
 	assert output == "", 'expected not putput, got: \n' + output
 
 
 @then(u'I expect the string "{text}" on stdout from checkbrightness')
 def step_impl(context, text):
-	output = context.checkbrightness.stdout.read()
+	output = context.checkbrightness.stdout.read().decode('utf-8')
 	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 
 
 @then(u'I expect the string "{text}" on stderr from checkbrightness')
 def step_impl(context, text):
-	output = context.checkbrightness.stderr.read()
+	output = context.checkbrightness.stderr.read().decode('utf-8')
 	assert output.find(text) != -1, 'expected to see "' + text + '", got: \n' + output
 
