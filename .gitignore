@@ -36,6 +36,7 @@ Thumbs.db
 /.qmake.stash
 build-*-Debug/
 build-*-Release/
+build/
 
 # qtcreator generated files
 *.pro.user*
@@ -72,4 +73,3 @@ build-*-Release/
 # --------
 *.dll
 *.exe
-
