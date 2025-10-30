@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier:	GPL-3.0+
 
-CONFIG += c++14
+CONFIG += c++17
 
 INSTALLS += target
 target.path = /usr/bin

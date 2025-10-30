@@ -12,5 +12,5 @@ SUBDIRS = \
     brightnessd/brightnessd.test.pro \
     common/common.test.pro \
     xactivityd/xactivityd.pro \
-    xactivityd/xactivityd.test.pro \
     checkbrightness/checkbrightness.pro \
+    fbactivityd/fbactivityd.pro \
