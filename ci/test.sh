@@ -9,7 +9,6 @@ cd build
 ambientlightd/ambientlightd.test
 brightnessd/brightnessd.test
 common/common.test
-xactivityd/xactivityd.test
 
 
 # start DBus

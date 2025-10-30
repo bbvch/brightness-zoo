@@ -22,19 +22,19 @@ LIBS += -lX11 -lXss -lXext
 SOURCES += main.cpp \
     Xidle.cpp \
     idletime.c \
-    ActivityNotifier.cpp \
-    PowersaveProxy.cpp \
+    ../common/PowersaveProxy.cpp \
+    ../common/ActivityNotifier.cpp \
     ../common/ConfigurationReader.cpp \
     ../common/DbusNames.cpp \
     ../common/DbusCommandLine.cpp \
-    Configuration.cpp \
+    ../common/Configuration.cpp \
 
 HEADERS += \
-    idletime.h \
     Xidle.h \
-    ActivityNotifier.h \
-    PowersaveProxy.h \
+    idletime.h \
+    ../common/PowersaveProxy.h \
+    ../common/ActivityNotifier.h \
     ../common/ConfigurationReader.h \
     ../common/DbusNames.h \
     ../common/DbusCommandLine.h \
-    Configuration.h \
+    ../common/Configuration.h \

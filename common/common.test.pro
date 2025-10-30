@@ -13,7 +13,10 @@ TARGET = common.test
 
 HEADERS += \
     ConfigurationReader.h \
+    ActivityNotifier.h \
 
 SOURCES += \
     ConfigurationReader.cpp \
     ConfigurationReader.test.cpp \
+    ActivityNotifier.cpp \
+    ActivityNotifier.test.cpp \
