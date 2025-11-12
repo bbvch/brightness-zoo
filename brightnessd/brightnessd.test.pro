@@ -21,10 +21,6 @@ SOURCES += \
     print.cpp \
 
 HEADERS += \
-    ../common/sysfs/Reader.mock.h \
-    ../common/sysfs/Writer.mock.h \
-    ../common/sysfs/Reader.h \
-    ../common/sysfs/Writer.h \
     BrightnessControl.h \
     SysfsDevice.h \
     Device.mock.h \

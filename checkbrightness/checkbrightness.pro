@@ -7,6 +7,7 @@ include(../settings.pri)
 
 QT += core
 QT -= gui
+QT += dbus
 
 CONFIG += console
 CONFIG -= app_bundle
@@ -16,9 +17,5 @@ TARGET = checkbrightness
 TEMPLATE = app
 
 SOURCES += \
-    ../common/sysfs/RoValue.cpp \
     main.cpp
 
-HEADERS += \
-    ../common/sysfs/Reader.h \
-    ../common/sysfs/RoValue.h \

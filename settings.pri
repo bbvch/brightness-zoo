@@ -9,3 +9,4 @@ INSTALLS += target
 target.path = /usr/bin
 
 INCLUDEPATH += ../common/
+LIBS += -L../common -lcommon
