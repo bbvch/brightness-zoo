@@ -18,10 +18,6 @@ SOURCES += \
     convert/LinearWithSaturation.test.cpp \
 
 HEADERS += \
-    ../common/Brightness.h \
-    ../common/Brightness.mock.h \
-    ../common/sysfs/Reader.h \
-    ../common/sysfs/Reader.mock.h \
     AmbientLightD.h \
     convert/LinearWithSaturation.h \
     convert/AmbientToBrightness.h \

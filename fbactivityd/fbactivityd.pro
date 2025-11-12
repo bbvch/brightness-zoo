@@ -1,6 +1,7 @@
+# (C) Copyright 2025
+# Marc Brändli, bbv Software Services, http://bbv.ch
 #
-# Framebuffer Activity Daemon
-#
+# SPDX-License-Identifier:	GPL-2.0+
 
 include(../settings.pri)
 
@@ -21,19 +22,7 @@ SOURCES += \
     main.cpp \
     FramebufferIdle.cpp \
     InputDevice.cpp \
-    ../common/PowersaveProxy.cpp \
-    ../common/ActivityNotifier.cpp \
-    ../common/Configuration.cpp \
-    ../common/ConfigurationReader.cpp \
-    ../common/DbusNames.cpp \
-    ../common/DbusCommandLine.cpp
 
 HEADERS += \
     FramebufferIdle.h \
     InputDevice.h \
-    ../common/PowersaveProxy.h \
-    ../common/ActivityNotifier.h \
-    ../common/Configuration.h \
-    ../common/ConfigurationReader.h \
-    ../common/DbusNames.h \
-    ../common/DbusCommandLine.h

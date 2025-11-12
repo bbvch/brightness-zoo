@@ -19,12 +19,8 @@ TEMPLATE = app
 SOURCES += main.cpp \
     AmbientLightD.cpp \
     convert/LinearWithSaturation.cpp \
-    ../common/sysfs/RoValue.cpp \
     BrightnessProxy.cpp \
-    ../common/DbusNames.cpp \
-    ../common/ConfigurationReader.cpp \
     Configuration.cpp \
-    ../common/DbusCommandLine.cpp \
     sensor/IioSensor.cpp \
 
 HEADERS += \
@@ -32,14 +28,8 @@ HEADERS += \
     convert/LinearWithSaturation.h \
     convert/LinearConfiguration.h \
     convert/AmbientToBrightness.h \
-    ../common/sysfs/Reader.h \
-    ../common/sysfs/RoValue.h \
     BrightnessProxy.h \
-    ../common/DbusNames.h \
-    ../common/Brightness.h \
-    ../common/ConfigurationReader.h \
     Configuration.h \
-    ../common/DbusCommandLine.h \
     sensor/AmbientLightSensor.h \
     sensor/AmbientLightSensor.mock.h \
     sensor/IioSensor.h \
